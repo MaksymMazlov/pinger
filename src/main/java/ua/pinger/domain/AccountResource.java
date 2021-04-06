@@ -13,11 +13,13 @@ public class AccountResource
     private String status;
     private String type;
     private String host;
-    private int interval;
+    private int monitoringInterval;
     private Timestamp created;
+    private int accountId;
 
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getId()
     {
         return id;
@@ -77,15 +79,15 @@ public class AccountResource
     }
 
     @Basic
-    @Column(name = "interval")
+    @Column(name = "monitoring_interval")
     public int getInterval()
     {
-        return interval;
+        return monitoringInterval;
     }
 
     public void setInterval(int interval)
     {
-        this.interval = interval;
+        this.monitoringInterval = interval;
     }
 
     @Basic
@@ -100,6 +102,18 @@ public class AccountResource
         this.created = created;
     }
 
+    @Basic
+    @Column(name = "account_id")
+    public int getAccountId()
+    {
+        return accountId;
+    }
+
+    public void setAccountId(int accountId)
+    {
+        this.accountId = accountId;
+    }
+
     @Override
     public boolean equals(Object o)
     {
@@ -111,13 +125,13 @@ public class AccountResource
         {
             return false;
         }
-        AccountResource that = (AccountResource) o;
-        return id == that.id && interval == that.interval && Objects.equals(name, that.name) && Objects.equals(status, that.status) && Objects.equals(type, that.type) && Objects.equals(host, that.host) && Objects.equals(created, that.created);
+        AccountResource resource = (AccountResource) o;
+        return id == resource.id && monitoringInterval == resource.monitoringInterval && accountId == resource.accountId && Objects.equals(name, resource.name) && Objects.equals(status, resource.status) && Objects.equals(type, resource.type) && Objects.equals(host, resource.host) && Objects.equals(created, resource.created);
     }
 
     @Override
     public int hashCode()
     {
-        return Objects.hash(id, name, status, type, host, interval, created);
+        return Objects.hash(id, name, status, type, host, monitoringInterval, created, accountId);
     }
 }

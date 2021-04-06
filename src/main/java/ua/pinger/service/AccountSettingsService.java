@@ -3,12 +3,10 @@ package ua.pinger.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.pinger.RestApiException;
-import ua.pinger.domain.Account;
 import ua.pinger.domain.AccountSettings;
 import ua.pinger.repository.AccountSettingsRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class AccountSettingsService

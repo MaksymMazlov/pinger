@@ -13,6 +13,7 @@ public class MonitoringByDay
     private Date date;
     private Time time;
     private String status;
+    private int resourceId;
 
     @Id
     @Column(name = "id")
@@ -60,6 +61,18 @@ public class MonitoringByDay
     public void setStatus(String status)
     {
         this.status = status;
+    }
+
+    @Basic
+    @Column(name = "account_resource_id")
+    public int getResourceId()
+    {
+        return resourceId;
+    }
+
+    public void setResourceId(int resourceId)
+    {
+        this.resourceId = resourceId;
     }
 
     @Override

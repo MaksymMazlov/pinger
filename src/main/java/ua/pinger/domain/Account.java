@@ -18,6 +18,7 @@ public class Account implements UserDetails
     private String email;
     private String password;
     private Timestamp created;
+    private String token;
 
     @Id
     @Column(name = "id")
@@ -108,6 +109,18 @@ public class Account implements UserDetails
     public void setCreated(Timestamp created)
     {
         this.created = created;
+    }
+
+    @Basic
+    @Column(name = "token")
+    public String getToken()
+    {
+        return token;
+    }
+
+    public void setToken(String token)
+    {
+        this.token = token;
     }
 
     @Override
