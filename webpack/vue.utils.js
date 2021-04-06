@@ -3,7 +3,7 @@ const path = require('path');
 const config = require('../config');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const packageConfig = require('../package.json');
-// const sass = require('sass');
+const sass = require('sass');
 
 exports.assetsPath = function (_path) {
   // const assetsSubDirectory = process.env.NODE_ENV === 'production'
@@ -53,8 +53,8 @@ exports.cssLoaders = function (options) {
     css: generateLoaders(),
     postcss: generateLoaders(),
     less: generateLoaders('less'),
-    // sass: generateLoaders('sass', {indentedSyntax: true, implementation: sass}),
-    // scss: generateLoaders('sass', {implementation: sass}),
+    sass: generateLoaders('sass', {indentedSyntax: true, implementation: sass}),
+    scss: generateLoaders('sass', {implementation: sass}),
     stylus: generateLoaders('stylus'),
     styl: generateLoaders('stylus'),
   };
