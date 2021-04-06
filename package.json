@@ -35,6 +35,7 @@
     "browser-sync-webpack-plugin": "2.2.2"
   },
   "scripts": {
+    "cleanup": "rimraf build/resources/main/static/",
     "start": "npm run webpack:dev",
     "webpack:dev": "npm run webpack-dev-server -- --config webpack/webpack.dev.js --progress --inline",
     "webpack-dev-server": "node --max_old_space_size=4096 node_modules/webpack-dev-server/bin/webpack-dev-server.js"
