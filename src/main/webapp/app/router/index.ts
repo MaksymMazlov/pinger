@@ -8,7 +8,9 @@ Component.registerHooks([
     'beforeRouteUpdate', // for vue-router 2.2+
 ]);
 
-const Home = () => import('@/core/home/home.vue');
+const Home = () => import('../core/home.vue');
+const Login = () => import('../core/login.vue');
+const Error = () => import('../core/error.vue');
 
 Vue.use(Router);
 
@@ -19,5 +21,15 @@ export default new Router({
             path: '/',
             name: 'Home',
             component: Home
+        },
+        {
+            path: '/page/login',
+            name: 'Login',
+            component: Login
+        },
+        {
+            path: '/not-found',
+            name: 'NotFound',
+            component: Error
         }]
 });

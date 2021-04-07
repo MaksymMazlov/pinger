@@ -1,9 +1,18 @@
 <template>
   <div id="app">
-    <navbar></navbar>
-    <div class="container">
-      <h1>Hello World</h1>
+    <div class="wrapper">
+      <div id="app-header">
+        <navbar></navbar>
+      </div>
+      <div class="container">
+        <router-view></router-view>
+      </div>
     </div>
+    <footer class="footer bg-secondary text-light">
+      <div class="container text-center">
+        Pinger.ua
+      </div>
+    </footer>
   </div>
 </template>
 
@@ -21,3 +30,12 @@ export default class App extends Vue {
 
 }
 </script>
+<style scoped>
+.footer {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  height: 50px;
+  line-height: 50px;
+}
+</style>
