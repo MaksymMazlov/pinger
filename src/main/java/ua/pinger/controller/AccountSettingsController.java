@@ -11,7 +11,7 @@ import ua.pinger.service.AccountSettingsService;
 import java.util.List;
 
 @RestController
-@RequestMapping("account/settings")
+@RequestMapping("/api/account/settings")
 public class AccountSettingsController
 {
     @Autowired

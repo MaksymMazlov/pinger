@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ua.pinger.service.MonitoringByDayService;
 
 @RestController
-@RequestMapping("/monitoring/day")
+@RequestMapping("/api/monitoring/day")
 public class MonitorByDayController
 {
     @Autowired

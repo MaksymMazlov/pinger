@@ -12,7 +12,7 @@ import ua.pinger.dto.RequestAccountRegistrationDto;
 import ua.pinger.service.AccountService;
 
 @RestController
-@RequestMapping("/account")
+@RequestMapping("/api/account")
 public class AccountController
 {
     @Autowired

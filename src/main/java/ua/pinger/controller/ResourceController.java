@@ -18,21 +18,21 @@ public class ResourceController
     @Autowired
     AccountResourceService resourceService;
 
-    @GetMapping("/resources")
+    @GetMapping("/api/resources")
     public List<AccountResource> getResources(Authentication authentication)
     {
         Account account = (Account) authentication.getPrincipal();
         return resourceService.getAll(account.getId());
     }
 
-    @GetMapping("/resource/{id}")
+    @GetMapping("/api/resource/{id}")
     public AccountResource getResource(Authentication authentication, @PathVariable int id)
     {
         Account account = (Account) authentication.getPrincipal();
         return resourceService.getResource(account.getId(), id);
     }
 
-    @PostMapping(value = "/resource", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/api/resource", produces = MediaType.APPLICATION_JSON_VALUE)
     public AccountResource addResource(Authentication authentication,
                                        @RequestBody  @Validated RequestCreateOrUpdateResourceDto resourceDto)
     {
@@ -41,7 +41,7 @@ public class ResourceController
     }
 
 
-    @PutMapping(value = "/resource/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/api/resource/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public AccountResource updateResource(Authentication authentication,
                                           @RequestBody @Validated RequestCreateOrUpdateResourceDto resourceDto,
                                           @PathVariable int id)
