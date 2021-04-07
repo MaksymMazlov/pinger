@@ -1,7 +1,8 @@
 <template>
   <div class="row">
     <div class="col-md-6 offset-md-3 col-sm-10 offset-sm-1">
-      <form class="m-2" action="/login" method="post">
+      <h3>Авторизація</h3>
+      <form class="my-2" action="/login" method="post">
         <label>Email:</label>
         <input type="email" name="username" class="form-control">
         <label>Password:</label>

@@ -15,7 +15,10 @@
             <router-link class="nav-link active" to="/">Головна</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/page/login">Авторизація</router-link>
+            <router-link class="nav-link" to="/page/account/login">Авторизація</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link" to="/page/account/registration">Реєстрація</router-link>
           </li>
         </ul>
       </div>

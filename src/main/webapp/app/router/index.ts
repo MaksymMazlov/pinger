@@ -10,6 +10,7 @@ Component.registerHooks([
 
 const Home = () => import('../core/home.vue');
 const Login = () => import('../core/login.vue');
+const Registration = () => import('../core/registration.vue');
 const Error = () => import('../core/error.vue');
 
 Vue.use(Router);
@@ -23,9 +24,14 @@ export default new Router({
             component: Home
         },
         {
-            path: '/page/login',
+            path: '/page/account/login',
             name: 'Login',
             component: Login
+        },
+        {
+            path: '/page/account/registration',
+            name: 'Registration',
+            component: Registration
         },
         {
             path: '/not-found',
