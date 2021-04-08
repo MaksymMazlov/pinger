@@ -1,12 +1,14 @@
 plugins {
     id 'org.springframework.boot' version '2.4.3'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'com.github.node-gradle.node'
     id 'java'
 }
 
 group = 'ua.pinger'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '1.8'
+sourceCompatibility=1.8
+targetCompatibility=1.8
 
 repositories {
     mavenCentral()
@@ -26,3 +28,25 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+springBoot {
+    mainClassName = "ua.pinger.Main"
+}
+
+task webpack(type: NpmTask) {
+    inputs.files("package-lock.json")
+    inputs.files("build.gradle")
+    inputs.dir("src/main/webapp/")
+
+    def webpackDevFiles = fileTree("webpack//")
+    webpackDevFiles.exclude("webpack.prod.js")
+    inputs.files(webpackDevFiles)
+
+    outputs.dir("build/resources/main/static/")
+
+    dependsOn npmInstall
+    args = ["run", "webpack:build"]
+    environment = [APP_VERSION: project.version]
+}
+
+bootJar.dependsOn webpack

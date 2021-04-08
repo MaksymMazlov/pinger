@@ -38,13 +38,17 @@
     "friendly-errors-webpack-plugin": "1.7.0",
     "portfinder": "1.0.26",
     "browser-sync": "2.26.7",
-    "browser-sync-webpack-plugin": "2.2.2"
+    "browser-sync-webpack-plugin": "2.2.2",
+    "rimraf": "3.0.2"
   },
   "scripts": {
     "cleanup": "rimraf build/resources/main/static/",
     "start": "npm run webpack:dev",
     "webpack:dev": "npm run webpack-dev-server -- --config webpack/webpack.dev.js --progress --inline",
-    "webpack-dev-server": "node --max_old_space_size=4096 node_modules/webpack-dev-server/bin/webpack-dev-server.js"
+    "webpack-dev-server": "node --max_old_space_size=4096 node_modules/webpack-dev-server/bin/webpack-dev-server.js",
+    "webpack:build": "npm run cleanup && npm run webpack:build:main",
+    "webpack:build:main": "npm run webpack -- --config webpack/webpack.dev.js --progress --profile",
+    "webpack": "node --max_old_space_size=4096 node_modules/webpack/bin/webpack.js"
   },
   "repository": {
     "type": "git",
