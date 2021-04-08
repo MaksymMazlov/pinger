@@ -26,7 +26,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
                 .antMatchers(HttpMethod.POST, "/api/account").permitAll()
                 .antMatchers("/api/**").authenticated()
                 .antMatchers("/**").permitAll()
-                .and().formLogin().loginPage("/page/account/login").permitAll()
+                .and().formLogin().loginPage("/api/login").permitAll()
                 .and().logout().permitAll()
                 .and().csrf().disable();
     }
