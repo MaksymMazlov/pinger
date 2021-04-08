@@ -20,6 +20,9 @@
           <li v-if="!authenticated" class="nav-item">
             <router-link class="nav-link" to="/page/account/registration">Реєстрація</router-link>
           </li>
+          <li v-if="authenticated" class="nav-item">
+            <router-link class="nav-link" to="/page/resource">Мої Ресурси</router-link>
+          </li>
         </ul>
       </div>
     </div>
