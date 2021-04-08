@@ -14,11 +14,14 @@
           <li class="nav-item">
             <router-link class="nav-link active" to="/">Головна</router-link>
           </li>
-          <li class="nav-item">
+          <li v-if="!authenticated" class="nav-item">
             <router-link class="nav-link" to="/page/account/login">Авторизація</router-link>
           </li>
-          <li class="nav-item">
+          <li v-if="!authenticated" class="nav-item">
             <router-link class="nav-link" to="/page/account/registration">Реєстрація</router-link>
+          </li>
+          <li v-if="authenticated" class="nav-item">
+            <router-link class="nav-link" to="/page/resource">Мої Ресурси</router-link>
           </li>
         </ul>
       </div>
@@ -31,6 +34,8 @@ import Component from "vue-class-component";
 
 @Component
 export default class Navbar extends Vue {
-
+  public get authenticated(): boolean {
+    return this.$store.getters.authenticated;
+  }
 }
 </script>
