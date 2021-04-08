@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
 import ua.pinger.service.UserDetailsServiceImpl;
 
 @Configuration
@@ -22,19 +23,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
     {
         http
                 .authorizeRequests()
-                .antMatchers("/").permitAll()
-                .antMatchers(HttpMethod.POST, "/account").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                .loginPage("/login")
-                .permitAll()
-                .and()
-                .logout()
-                .permitAll()
-                .and()
-                .csrf()
-                .disable();
+                .antMatchers(HttpMethod.POST, "/api/account").permitAll()
+                .antMatchers("/api/**").authenticated()
+                .antMatchers("/**").permitAll()
+                .and().formLogin().loginPage("/page/account/login").permitAll()
+                .and().logout().permitAll()
+                .and().csrf().disable();
     }
 
     @Bean
