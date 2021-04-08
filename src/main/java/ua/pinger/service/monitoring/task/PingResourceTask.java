@@ -63,6 +63,7 @@ public class PingResourceTask extends AbstractTask
         monitoringByDay.setStatus(monitoringResult.getReason());
         monitoringByDay.setDate(Date.valueOf(LocalDate.now()));
         monitoringByDay.setTime(Time.valueOf(LocalTime.now()));
+        monitoringByDay.setAvailable(monitoringResult.isAvailable());
         monitoringByDay.setResourceId(resource.getId());
 
         byDayRepository.save(monitoringByDay);

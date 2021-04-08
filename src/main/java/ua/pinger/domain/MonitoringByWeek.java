@@ -11,6 +11,8 @@ public class MonitoringByWeek
     private int id;
     private Date date;
     private String status;
+    private boolean isAvailable;
+    private int accountResourceId;
 
     @Id
     @Column(name = "id")
@@ -46,6 +48,30 @@ public class MonitoringByWeek
     public void setStatus(String status)
     {
         this.status = status;
+    }
+
+    @Basic
+    @Column(name = "available")
+    public boolean isAvailable()
+    {
+        return isAvailable;
+    }
+
+    @Basic
+    @Column(name = "account_resource_id")
+    public int getAccountResourceId()
+    {
+        return accountResourceId;
+    }
+
+    public void setAccountResourceId(int accountResourceId)
+    {
+        this.accountResourceId = accountResourceId;
+    }
+
+    public void setAvailable(boolean available)
+    {
+        isAvailable = available;
     }
 
     @Override

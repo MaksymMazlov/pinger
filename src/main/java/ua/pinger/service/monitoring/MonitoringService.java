@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import ua.pinger.domain.AccountResource;
 import ua.pinger.repository.AccountResourceRepository;
 import ua.pinger.service.monitoring.task.HttpResourceTask;
+import ua.pinger.service.monitoring.task.MonitoringDayToWeekTask;
 import ua.pinger.service.monitoring.task.PingResourceTask;
 
 import javax.annotation.PostConstruct;
@@ -41,10 +42,17 @@ public class MonitoringService
             }
             else if (elem.getType().equals(MonitoringType.PING.name()))
             {
-                PingResourceTask pingTask = context.getBean(PingResourceTask.class,elem);
+                PingResourceTask pingTask = context.getBean(PingResourceTask.class, elem);
                 service.scheduleAtFixedRate(pingTask, 0, elem.getInterval(), TimeUnit.MINUTES);
                 LOG.info("IN startAllTasks - start pingTask for: {}", elem.getName());
             }
         }
+        startMonitoringDayToWeek();
+    }
+
+    private void startMonitoringDayToWeek()
+    {
+        MonitoringDayToWeekTask dayToWeekTask = context.getBean(MonitoringDayToWeekTask.class);
+        service.schedule(dayToWeekTask, 0, TimeUnit.HOURS);
     }
 }
