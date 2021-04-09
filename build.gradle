@@ -3,12 +3,19 @@ plugins {
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'com.github.node-gradle.node'
     id 'java'
+    id 'idea'
 }
 
 group = 'ua.pinger'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility=1.8
 targetCompatibility=1.8
+
+idea {
+    module {
+        excludeDirs += files("node_modules")
+    }
+}
 
 repositories {
     mavenCentral()
@@ -28,6 +35,8 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+defaultTasks "bootRun"
 
 springBoot {
     mainClassName = "ua.pinger.Main"
@@ -49,4 +58,5 @@ task webpack(type: NpmTask) {
     environment = [APP_VERSION: project.version]
 }
 
-bootJar.dependsOn webpack
+compileJava.dependsOn processResources
+processResources.dependsOn webpack
