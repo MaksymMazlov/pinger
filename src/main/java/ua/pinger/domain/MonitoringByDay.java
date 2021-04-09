@@ -14,6 +14,7 @@ public class MonitoringByDay
     private Time time;
     private String status;
     private int resourceId;
+    private boolean isAvailable;
 
     @Id
     @Column(name = "id")
@@ -73,6 +74,18 @@ public class MonitoringByDay
     public void setResourceId(int resourceId)
     {
         this.resourceId = resourceId;
+    }
+    @Basic
+
+    @Column(name = "available")
+    public boolean isAvailable()
+    {
+        return isAvailable;
+    }
+
+    public void setAvailable(boolean available)
+    {
+        isAvailable = available;
     }
 
     @Override
