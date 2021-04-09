@@ -4,6 +4,7 @@ import router from './router';
 import '../content/scss/vendor.scss';
 import * as storageConfig from './storage/StorageConfig';
 import AccountService from "./service/AccountService";
+import AccountResourceService from "./service/AccountResourceService";
 
 router.beforeEach((to, from, next) => {
     if (!to.matched.length) {
@@ -22,7 +23,8 @@ new Vue({
     template: '<App/>',
     router,
     provide: {
-        accountService: () => accountService
+        accountService: () => accountService,
+        accountResourceService: () => new AccountResourceService()
     },
     store
 });
