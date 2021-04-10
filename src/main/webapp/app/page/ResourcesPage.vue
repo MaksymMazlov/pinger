@@ -1,17 +1,13 @@
 <template>
   <div>
-    <div v-if="error" class="aller aller-danger">
+    <b-alert variant="danger" v-if="error">
       Ошибка
-    </div>
+    </b-alert>
 
-    <div class="row py-4">
+    <div class="row row-cols-3">
       <div v-for="resource in resources" :key="resource.id">
-        <div class="col">
-          <div class="card m-1">
-            <div class="card-header">{{resource.name}}</div>
-            <div class="card-body">{{resource.host}}</div>
-          </div>
-        </div>
+        <resource-component v-bind:resource="resource">
+        </resource-component>
       </div>
 
     </div>
@@ -22,8 +18,13 @@ import Component from 'vue-class-component';
 import {Inject, Vue} from 'vue-property-decorator';
 import AccountResourceService from "../service/AccountResourceService";
 import {IAccountResource} from "../model/AccountResource";
+import ResourceComponent from './component/ResourceComponent'
 
-@Component
+@Component({
+  'components': {
+    'resource-component': ResourceComponent
+  }
+})
 export default class ResourcesPage extends Vue {
   @Inject('accountResourceService')
   protected accountResourceService: () => AccountResourceService;

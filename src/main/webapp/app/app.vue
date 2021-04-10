@@ -33,9 +33,12 @@ export default class App extends Vue {
 <style scoped>
 .footer {
   width: 100%;
-  position: absolute;
+  position: fixed;
   bottom: 0;
-  height: 50px;
-  line-height: 50px;
+  height: 40px;
+  line-height: 40px;
+}
+.wrapper{
+  padding-bottom: 50px;
 }
 </style>

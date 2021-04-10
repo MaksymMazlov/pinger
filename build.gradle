@@ -3,19 +3,12 @@ plugins {
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'com.github.node-gradle.node'
     id 'java'
-    id 'idea'
 }
 
 group = 'ua.pinger'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility=1.8
 targetCompatibility=1.8
-
-idea {
-    module {
-        excludeDirs += files("node_modules")
-    }
-}
 
 repositories {
     mavenCentral()
