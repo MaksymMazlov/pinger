@@ -62,4 +62,10 @@ public class AccountResourceService
         }
         throw new RestApiException("Not found account resource by id");
     }
+
+    public void delete(int accountId, int id)
+    {
+        AccountResource resource = resourceRepository.findByAccountIdAndId(accountId, id);
+        resourceRepository.delete(resource);
+    }
 }

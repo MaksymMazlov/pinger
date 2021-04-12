@@ -34,12 +34,11 @@ public class ResourceController
 
     @PostMapping(value = "/api/resource", produces = MediaType.APPLICATION_JSON_VALUE)
     public AccountResource addResource(Authentication authentication,
-                                       @RequestBody  @Validated RequestCreateOrUpdateResourceDto resourceDto)
+                                       @RequestBody @Validated RequestCreateOrUpdateResourceDto resourceDto)
     {
         Account account = (Account) authentication.getPrincipal();
         return resourceService.add(account.getId(), resourceDto);
     }
-
 
     @PutMapping(value = "/api/resource/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public AccountResource updateResource(Authentication authentication,
@@ -48,5 +47,12 @@ public class ResourceController
     {
         Account account = (Account) authentication.getPrincipal();
         return resourceService.update(account.getId(), resourceDto, id);
+    }
+
+    @DeleteMapping("/api/resource/{id}")
+    public void deleteResource(Authentication authentication, @PathVariable int id)
+    {
+        Account account = (Account) authentication.getPrincipal();
+        resourceService.delete(account.getId(), id);
     }
 }
