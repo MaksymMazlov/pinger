@@ -1,10 +1,13 @@
 package ua.pinger.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import ua.pinger.domain.AccountResource;
-
 import java.util.List;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import ua.pinger.domain.AccountResource;
+
+@Repository
 public interface AccountResourceRepository extends JpaRepository<AccountResource, Integer>
 {
     List<AccountResource> findByAccountId(int accountId);

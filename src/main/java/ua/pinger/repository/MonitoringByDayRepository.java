@@ -1,10 +1,11 @@
 package ua.pinger.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
 import ua.pinger.domain.MonitoringByDay;
 
-import java.util.List;
-
+@Repository
 public interface MonitoringByDayRepository extends JpaRepository<MonitoringByDay, Integer>
 {
 
