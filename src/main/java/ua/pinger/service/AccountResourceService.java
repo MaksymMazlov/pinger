@@ -1,17 +1,19 @@
 package ua.pinger.service;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import ua.pinger.RestApiException;
 import ua.pinger.domain.AccountResource;
+import ua.pinger.domain.enumeration.ResourceStatus;
 import ua.pinger.dto.RequestCreateOrUpdateResourceDto;
 import ua.pinger.repository.AccountResourceRepository;
-
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 public class AccountResourceService
@@ -35,7 +37,7 @@ public class AccountResourceService
         AccountResource resource = new AccountResource();
 
         resource.setName(resourceDto.getName());
-        resource.setStatus("Started");
+        resource.setStatus(ResourceStatus.ACTIVE);
         resource.setHost(resourceDto.getHost());
         resource.setType(resourceDto.getType());
         resource.setInterval(resourceDto.getMonitoringInterval());
@@ -55,7 +57,7 @@ public class AccountResourceService
             oldResource.setType(resourceDto.getType());
             oldResource.setHost(resourceDto.getHost());
             oldResource.setInterval(resourceDto.getMonitoringInterval());
-            oldResource.setStatus("UPDATE");
+            oldResource.setStatus(ResourceStatus.ACTIVE);
             oldResource.setCreated(Timestamp.valueOf(LocalDateTime.now()));
             LOG.info("IN update - account resource: successfully update");
             return resourceRepository.save(oldResource);

@@ -1,8 +1,19 @@
 package ua.pinger.domain;
 
-import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Objects;
+
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import ua.pinger.domain.enumeration.ResourceStatus;
 
 @Entity
 @Table(name = "account_resource", schema = "pinger")
@@ -10,7 +21,7 @@ public class AccountResource
 {
     private int id;
     private String name;
-    private String status;
+    private ResourceStatus status;
     private String type;
     private String host;
     private int monitoringInterval;
@@ -43,13 +54,14 @@ public class AccountResource
     }
 
     @Basic
+    @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    public String getStatus()
+    public ResourceStatus getStatus()
     {
         return status;
     }
 
-    public void setStatus(String status)
+    public void setStatus(ResourceStatus status)
     {
         this.status = status;
     }
