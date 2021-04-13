@@ -17,7 +17,7 @@
             <td>{{ resource.created }}</td>
           </tr>
         </table>
-        <a href="#" v-on:click="removeResource()" class="btn btn-danger">Видалить</a>
+        <button v-on:click="removeResource()" class="btn btn-danger">Видалить</button>
       </div>
     </div>
   </div>
@@ -26,14 +26,24 @@
 <script lang="ts">
 import {Component, Prop, Vue} from 'vue-property-decorator';
 import {IAccountResource} from "../../model/AccountResource";
+import axios from 'axios';
 
 @Component
 export default class ResourceComponent extends Vue {
   @Prop()
-  public resource: IAccountResource;
+  public resource: IAccountResource
+  @Prop()
+  public resources: IAccountResource[];
 
   public removeResource(): void {
-    console.error("not implemented")
+    axios.delete(`/api/resource/${this.resource.id}`)
+        .then(r => {
+          console.log('aaaaaaaaa');
+          const index = this.resources.indexOf(this.resource, 0);
+          if (index > -1) {
+            this.resources.splice(index, 1);
+          }
+        })
   }
 }
 </script>

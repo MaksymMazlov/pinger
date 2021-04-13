@@ -1,12 +1,17 @@
 <template>
   <div>
-    <b-alert variant="danger" v-if="error">
+    <div class="alert alert-danger" v-if="error">
       Ошибка
-    </b-alert>
+    </div>
 
+    <div class="row">
+      <div class="col w100 my-2">
+        <router-link class="btn btn-success" to="/page/resource/new">Створити ресурс</router-link>
+      </div>
+    </div>
     <div class="row row-cols-3">
       <div v-for="resource in resources" :key="resource.id">
-        <resource-component v-bind:resource="resource">
+        <resource-component v-bind:resource="resource" v-bind:resources="resources">
         </resource-component>
       </div>
 

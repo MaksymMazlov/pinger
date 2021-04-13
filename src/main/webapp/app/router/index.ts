@@ -14,6 +14,7 @@ const Registration = () => import('../core/registration.vue');
 const Error = () => import('../core/error.vue');
 
 const ResourcesPage = () => import('../page/ResourcesPage.vue');
+const CreateResourcePage = () => import('../page/CreateResourcePage.vue');
 
 Vue.use(Router);
 
@@ -39,6 +40,11 @@ export default new Router({
             path: '/page/resource',
             name: 'AccountResource',
             component: ResourcesPage
+        },
+        {
+            path: '/page/resource/new',
+            name: 'AccountResource',
+            component: CreateResourcePage
         },
         {
             path: '/not-found',
