@@ -10,6 +10,7 @@ import ua.pinger.domain.enumeration.ResourceStatus;
 import ua.pinger.dto.RequestChangeStatusDto;
 import ua.pinger.dto.RequestCreateOrUpdateResourceDto;
 import ua.pinger.repository.AccountResourceRepository;
+import ua.pinger.service.monitoring.MonitoringService;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -21,6 +22,8 @@ public class AccountResourceService
     private static final Logger LOG = LoggerFactory.getLogger(AccountResourceService.class);
     @Autowired
     private AccountResourceRepository resourceRepository;
+    @Autowired
+    private MonitoringService monitoringService;
 
     public List<AccountResource> getAll(int accountId)
     {
@@ -44,7 +47,9 @@ public class AccountResourceService
         resource.setCreated(Timestamp.valueOf(LocalDateTime.now()));
         resource.setAccountId(accountId);
         LOG.info("IN add - account resource: successfully add");
-        return resourceRepository.save(resource);
+        resource = resourceRepository.save(resource);
+        monitoringService.enqueue(resource);
+        return resource;
     }
 
     public AccountResource update(int accountId, RequestCreateOrUpdateResourceDto resourceDto, int id)
@@ -67,14 +72,28 @@ public class AccountResourceService
 
     public void delete(int accountId, int id)
     {
+        monitoringService.cancel(id);
         AccountResource resource = resourceRepository.findByAccountIdAndId(accountId, id);
         resourceRepository.delete(resource);
     }
 
     public AccountResource changeStatus(int idAccount, RequestChangeStatusDto changeStatusDto, int idResource)
     {
+        ResourceStatus newStatus = changeStatusDto.getStatus();
+
         AccountResource oldAccountResource = resourceRepository.findByAccountIdAndId(idAccount, idResource);
-        oldAccountResource.setStatus(changeStatusDto.getStatus());
-        return resourceRepository.save(oldAccountResource);
+        oldAccountResource.setStatus(newStatus);
+        oldAccountResource = resourceRepository.save(oldAccountResource);
+
+        if (newStatus == ResourceStatus.SUSPENDED || newStatus == ResourceStatus.ARCHIVED)
+        {
+            monitoringService.cancel(idResource);
+        }
+        else if (newStatus == ResourceStatus.ACTIVE)
+        {
+            monitoringService.enqueue(oldAccountResource);
+        }
+
+        return oldAccountResource;
     }
 }

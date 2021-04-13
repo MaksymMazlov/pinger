@@ -1,5 +1,7 @@
 package ua.pinger.dto;
 
+import ua.pinger.domain.enumeration.MonitoringType;
+
 import javax.validation.constraints.NotNull;
 
 public class RequestCreateOrUpdateResourceDto
@@ -7,7 +9,7 @@ public class RequestCreateOrUpdateResourceDto
     @NotNull
     private String name;
     @NotNull
-    private String type;
+    private MonitoringType type;
     @NotNull
     private String host;
     @NotNull
@@ -23,12 +25,12 @@ public class RequestCreateOrUpdateResourceDto
         this.name = name;
     }
 
-    public String getType()
+    public MonitoringType getType()
     {
         return type;
     }
 
-    public void setType(String type)
+    public void setType(MonitoringType type)
     {
         this.type = type;
     }

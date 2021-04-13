@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import ua.pinger.domain.AccountResource;
 import ua.pinger.domain.MonitoringByDay;
 import ua.pinger.domain.MonitoringEvents;
+import ua.pinger.domain.enumeration.EventType;
 import ua.pinger.repository.MonitoringByDayRepository;
 import ua.pinger.repository.MonitoringEventRepository;
 import ua.pinger.service.monitoring.MonitoringResult;
@@ -83,7 +84,7 @@ public class PingResourceTask extends AbstractTask
             if (monitoringResult.isAvailable() != lastMonitoringByDay.isAvailable())
             {
                 MonitoringEvents event = new MonitoringEvents();
-                event.setType(monitoringResult.isAvailable() ? "UP" : "DOWN");
+                event.setType(monitoringResult.isAvailable() ? EventType.UP : EventType.DOWN);
                 event.setReason(monitoringResult.getReason());
                 event.setDateTime(Timestamp.valueOf(LocalDateTime.now()));
                 event.setDuration(event.getDuration() + resource.getInterval());

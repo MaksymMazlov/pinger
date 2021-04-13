@@ -1,5 +1,7 @@
 package ua.pinger.domain;
 
+import ua.pinger.domain.enumeration.EventType;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Objects;
@@ -9,7 +11,7 @@ import java.util.Objects;
 public class MonitoringEvents
 {
     private int id;
-    private String type;
+    private EventType type;
     private Timestamp dateTime;
     private int duration;
     private String reason;
@@ -28,13 +30,14 @@ public class MonitoringEvents
     }
 
     @Basic
+    @Enumerated(EnumType.STRING)
     @Column(name = "type")
-    public String getType()
+    public EventType getType()
     {
         return type;
     }
 
-    public void setType(String type)
+    public void setType(EventType type)
     {
         this.type = type;
     }
