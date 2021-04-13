@@ -50,6 +50,7 @@ public class MonitoringDayToWeekTask extends AbstractTask
             monitoringByWeek.setDate(Date.valueOf(LocalDate.now()));
             monitoringByWeek.setAvailable(available);
             monitoringByWeek.setAccountResourceId(resourceId);
+            monitoringByWeek.setStatus("");
             weekRepository.save(monitoringByWeek);
         }
     }

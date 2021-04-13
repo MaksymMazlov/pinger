@@ -7,6 +7,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ua.pinger.domain.Account;
 import ua.pinger.domain.AccountResource;
+import ua.pinger.dto.RequestChangeStatusDto;
 import ua.pinger.dto.RequestCreateOrUpdateResourceDto;
 import ua.pinger.service.AccountResourceService;
 
@@ -54,5 +55,13 @@ public class ResourceController
     {
         Account account = (Account) authentication.getPrincipal();
         resourceService.delete(account.getId(), id);
+    }
+    @PatchMapping(value = "/api/resource/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public AccountResource changeStatus(Authentication authentication,
+                                          @RequestBody @Validated RequestChangeStatusDto changeStatusDto,
+                                          @PathVariable int id)
+    {
+        Account account = (Account) authentication.getPrincipal();
+        return resourceService.changeStatus(account.getId(), changeStatusDto, id);
     }
 }

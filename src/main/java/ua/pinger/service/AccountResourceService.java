@@ -1,19 +1,19 @@
 package ua.pinger.service;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import ua.pinger.RestApiException;
 import ua.pinger.domain.AccountResource;
 import ua.pinger.domain.enumeration.ResourceStatus;
+import ua.pinger.dto.RequestChangeStatusDto;
 import ua.pinger.dto.RequestCreateOrUpdateResourceDto;
 import ua.pinger.repository.AccountResourceRepository;
+
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class AccountResourceService
@@ -50,7 +50,7 @@ public class AccountResourceService
     public AccountResource update(int accountId, RequestCreateOrUpdateResourceDto resourceDto, int id)
     {
 
-        AccountResource oldResource = resourceRepository.findByIdAndAccountId(id, accountId);
+        AccountResource oldResource = resourceRepository.findByAccountIdAndId(accountId, id);
         if (oldResource != null)
         {
             oldResource.setName(resourceDto.getName());
@@ -69,5 +69,12 @@ public class AccountResourceService
     {
         AccountResource resource = resourceRepository.findByAccountIdAndId(accountId, id);
         resourceRepository.delete(resource);
+    }
+
+    public AccountResource changeStatus(int idAccount, RequestChangeStatusDto changeStatusDto, int idResource)
+    {
+        AccountResource oldAccountResource = resourceRepository.findByAccountIdAndId(idAccount, idResource);
+        oldAccountResource.setStatus(changeStatusDto.getStatus());
+        return resourceRepository.save(oldAccountResource);
     }
 }

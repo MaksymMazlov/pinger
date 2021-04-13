@@ -13,6 +13,7 @@ public class MonitoringEvents
     private Timestamp dateTime;
     private int duration;
     private String reason;
+    private int accountResourceId;
 
     @Id
     @Column(name = "id")
@@ -72,6 +73,18 @@ public class MonitoringEvents
     public void setReason(String reason)
     {
         this.reason = reason;
+    }
+
+    @Basic
+    @Column(name = "account_resource_id")
+    public int getAccountResourceId()
+    {
+        return accountResourceId;
+    }
+
+    public void setAccountResourceId(int accountResourceId)
+    {
+        this.accountResourceId = accountResourceId;
     }
 
     @Override
