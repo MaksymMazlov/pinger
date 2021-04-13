@@ -4,23 +4,25 @@
       Ошибка
     </div>
 
-    <div class="row row-cols-3">
-      <form class="my-2">
-        <label>Навзва</label>
-        <input class="form-control" type="text" v-model="resource.name">
-        <div class="form-group">
-          <label for="typeSelect">Тип</label>
-          <select class="form-control" id="typeSelect" v-model="resource.type">
-            <option>PING</option>
-            <option>URL</option>
-          </select>
-        </div>
-        <label>Хост</label>
-        <input class="form-control" type="text" v-model="resource.host">
-        <label>Інтервал</label>
-        <input class="form-control" type="number" v-model="resource.monitoringInterval">
-        <button type="button" class="btn btn-primary my-2" v-on:click="createResource">Створити</button>
-      </form>
+    <div class="row row-cols-2">
+      <div class="col">
+        <form class="my-2">
+          <label>Навзва</label>
+          <input class="form-control" type="text" v-model="resource.name">
+          <div class="form-group">
+            <label for="typeSelect">Тип</label>
+            <select class="form-control" id="typeSelect" v-model="resource.type">
+              <option>PING</option>
+              <option>URL</option>
+            </select>
+          </div>
+          <label>Хост</label>
+          <input class="form-control" type="text" v-model="resource.host">
+          <label>Інтервал</label>
+          <input class="form-control" type="number" v-model="resource.monitoringInterval">
+          <button type="button" class="btn btn-primary my-2" v-on:click="createResource">Створити</button>
+        </form>
+      </div>
     </div>
   </div>
 </template>

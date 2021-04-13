@@ -2,7 +2,11 @@
   <div class="col">
     <div class="card my-1">
       <div class="card-body">
-        <h5 class="card-title">{{ resource.name }}</h5>
+        <h5 class="card-title">{{ resource.name }}
+          <span v-if="resource.status === 'ACTIVE'" class="badge badge-pill badge-primary float-right">Активно</span>
+          <span v-if="resource.status === 'SUSPENDED'" class="badge badge-pill badge-warning float-right">Призупинено</span>
+          <span v-if="resource.status === 'ARCHIVED'" class="badge badge-pill badge-secondary float-right">Архівовано</span>
+        </h5>
         <table class="table table-sm">
           <tr>
             <td>Хост</td>
@@ -17,7 +21,10 @@
             <td>{{ resource.created }}</td>
           </tr>
         </table>
-        <button v-on:click="removeResource()" class="btn btn-danger">Видалить</button>
+        <button class="btn btn-sm btn-primary"><font-awesome-icon icon="question-circle"/> Детальніше</button>
+        <button v-if="resource.status === 'ACTIVE'" class="btn btn-sm btn-warning"><font-awesome-icon icon="pause"/> Призупинити</button>
+        <button v-if="resource.status === 'SUSPENDED'" class="btn btn-sm btn-success"><font-awesome-icon icon="play"/> Поновити</button>
+        <button v-if="resource.status === 'ARCHIVED'" class="btn btn-sm btn-danger" v-on:click="removeResource()"><font-awesome-icon icon="trash"/> Видалити</button>
       </div>
     </div>
   </div>
@@ -38,7 +45,6 @@ export default class ResourceComponent extends Vue {
   public removeResource(): void {
     axios.delete(`/api/resource/${this.resource.id}`)
         .then(r => {
-          console.log('aaaaaaaaa');
           const index = this.resources.indexOf(this.resource, 0);
           if (index > -1) {
             this.resources.splice(index, 1);

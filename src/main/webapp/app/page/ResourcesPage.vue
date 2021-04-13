@@ -6,10 +6,12 @@
 
     <div class="row">
       <div class="col w100 my-2">
-        <router-link class="btn btn-success" to="/page/resource/new">Створити ресурс</router-link>
+        <h5>Список ресурсів</h5>
+        <p class="text-muted">Це Ваш список ресурсів, доступних для моніторингу. Натисніть "Створити ресурс" для додавання нового ресурсу.</p>
+        <router-link class="btn btn-sm btn-success" to="/page/resource/new"><font-awesome-icon icon="plus-square"/> Створити ресурс</router-link>
       </div>
     </div>
-    <div class="row row-cols-3">
+    <div class="row row-cols-2">
       <div v-for="resource in resources" :key="resource.id">
         <resource-component v-bind:resource="resource" v-bind:resources="resources">
         </resource-component>
