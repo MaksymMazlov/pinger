@@ -34,4 +34,43 @@ export default class AccountService {
                 });
         });
     }
+
+    public hasAnyAuthorityAndCheckAuth(authorities: any): Promise<boolean> {
+        if (typeof authorities === 'string') {
+            authorities = [authorities];
+        }
+
+        if (!this.authenticated || !this.userAuthorities) {
+            if (!this.store.getters.account && !this.store.getters.logon) {
+                return this.retrieveAccount();
+            } else {
+                return new Promise(resolve => {
+                    resolve(false);
+                });
+            }
+        }
+
+        // for (let i = 0; i < authorities.length; i++) {
+        //     if (this.userAuthorities.includes(authorities[i])) {
+        //         return new Promise(resolve => {
+        //             resolve(true);
+        //         });
+        //     }
+        // }
+        //
+        // return new Promise(resolve => {
+        //     resolve(false);
+        // });
+        return new Promise(resolve => {
+            resolve(true);
+        });
+    }
+
+    public get authenticated(): boolean {
+        return this.store.getters.authenticated;
+    }
+
+    public get userAuthorities(): any {
+        return this.store.getters.account.authorities;
+    }
 }
