@@ -4,12 +4,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 import ua.pinger.domain.Account;
 import ua.pinger.domain.AccountResource;
 import ua.pinger.dto.RequestChangeStatusDto;
 import ua.pinger.dto.RequestCreateOrUpdateResourceDto;
+import ua.pinger.dto.RequestMonitorByDayUptime;
 import ua.pinger.service.AccountResourceService;
+import ua.pinger.service.MonitoringByDayService;
 
 import java.util.List;
 
@@ -18,6 +27,8 @@ public class ResourceController
 {
     @Autowired
     AccountResourceService resourceService;
+    @Autowired
+    MonitoringByDayService monitoringByDayService;
 
     @GetMapping("/api/resources")
     public List<AccountResource> getResources(Authentication authentication)
@@ -56,12 +67,21 @@ public class ResourceController
         Account account = (Account) authentication.getPrincipal();
         resourceService.delete(account.getId(), id);
     }
+
     @PatchMapping(value = "/api/resource/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public AccountResource changeStatus(Authentication authentication,
-                                          @RequestBody @Validated RequestChangeStatusDto changeStatusDto,
-                                          @PathVariable int id)
+                                        @RequestBody @Validated RequestChangeStatusDto changeStatusDto,
+                                        @PathVariable int id)
     {
         Account account = (Account) authentication.getPrincipal();
         return resourceService.changeStatus(account.getId(), changeStatusDto, id);
+    }
+
+    @GetMapping(value = "/api/resource/{id}/uptime", produces = MediaType.APPLICATION_JSON_VALUE)
+    public RequestMonitorByDayUptime getUptime(Authentication authentication, @PathVariable int id)
+    {
+        Account account = (Account) authentication.getPrincipal();
+
+        return monitoringByDayService.getUptimeForPercent(account.getId(), id);
     }
 }

@@ -47,7 +47,7 @@ public class MonitoringService
     private void startMonitoringDayToWeek()
     {
         MonitoringDayToWeekTask dayToWeekTask = context.getBean(MonitoringDayToWeekTask.class);
-        service.schedule(dayToWeekTask, 0, TimeUnit.HOURS);
+        service.scheduleAtFixedRate(dayToWeekTask, 1, 24, TimeUnit.HOURS);
     }
 
     public void cancel(int resourceId)

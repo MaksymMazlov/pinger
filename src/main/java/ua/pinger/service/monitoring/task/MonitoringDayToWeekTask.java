@@ -10,9 +10,12 @@ import ua.pinger.domain.MonitoringByWeek;
 import ua.pinger.repository.MonitoringByDayRepository;
 import ua.pinger.repository.MonitoringByWeekRepository;
 
-import java.sql.Date;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Component
 @Scope("prototype")
@@ -34,6 +37,10 @@ public class MonitoringDayToWeekTask extends AbstractTask
         Set<Integer> resourceIds = map.keySet();
         for (int resourceId : resourceIds)
         {
+            if (weekRepository.existsByDateAndAccountResourceId(LocalDate.now(), resourceId))
+            {
+                continue;
+            }
             boolean available = true;
             List<MonitoringByDay> list = map.get(resourceId);
 
@@ -47,7 +54,7 @@ public class MonitoringDayToWeekTask extends AbstractTask
             }
 
             MonitoringByWeek monitoringByWeek = new MonitoringByWeek();
-            monitoringByWeek.setDate(Date.valueOf(LocalDate.now()));
+            monitoringByWeek.setDate(LocalDate.now());
             monitoringByWeek.setAvailable(available);
             monitoringByWeek.setAccountResourceId(resourceId);
             monitoringByWeek.setStatus("");

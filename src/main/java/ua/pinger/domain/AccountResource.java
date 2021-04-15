@@ -1,9 +1,20 @@
 package ua.pinger.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import ua.pinger.domain.enumeration.MonitoringType;
 import ua.pinger.domain.enumeration.ResourceStatus;
 
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import java.sql.Timestamp;
 import java.util.Objects;
 
@@ -19,6 +30,7 @@ public class AccountResource
     private int monitoringInterval;
     private Timestamp created;
     private int accountId;
+    private Account account;
 
     @Id
     @Column(name = "id")
@@ -117,6 +129,19 @@ public class AccountResource
     public void setAccountId(int accountId)
     {
         this.accountId = accountId;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "account_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JsonIgnore
+    public Account getAccount()
+    {
+        return account;
+    }
+
+    public void setAccount(Account account)
+    {
+        this.account = account;
     }
 
     @Override

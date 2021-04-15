@@ -1,6 +1,14 @@
 package ua.pinger.domain;
 
-import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.Objects;
@@ -15,6 +23,7 @@ public class MonitoringByDay
     private String status;
     private int resourceId;
     private boolean isAvailable;
+    private AccountResource accountResource;
 
     @Id
     @Column(name = "id")
@@ -75,8 +84,8 @@ public class MonitoringByDay
     {
         this.resourceId = resourceId;
     }
-    @Basic
 
+    @Basic
     @Column(name = "available")
     public boolean isAvailable()
     {
@@ -86,6 +95,19 @@ public class MonitoringByDay
     public void setAvailable(boolean available)
     {
         isAvailable = available;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "account_resource_id", referencedColumnName = "id", updatable = false, insertable = false)
+    @JsonIgnore
+    public AccountResource getAccountResource()
+    {
+        return accountResource;
+    }
+
+    public void setAccountResource(AccountResource accountResource)
+    {
+        this.accountResource = accountResource;
     }
 
     @Override

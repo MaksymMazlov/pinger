@@ -1,7 +1,11 @@
 package ua.pinger.domain;
 
-import javax.persistence.*;
-import java.sql.Date;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
@@ -9,7 +13,7 @@ import java.util.Objects;
 public class MonitoringByWeek
 {
     private int id;
-    private Date date;
+    private LocalDate date;
     private String status;
     private boolean isAvailable;
     private int accountResourceId;
@@ -28,12 +32,12 @@ public class MonitoringByWeek
 
     @Basic
     @Column(name = "date")
-    public Date getDate()
+    public LocalDate getDate()
     {
         return date;
     }
 
-    public void setDate(Date date)
+    public void setDate(LocalDate date)
     {
         this.date = date;
     }
