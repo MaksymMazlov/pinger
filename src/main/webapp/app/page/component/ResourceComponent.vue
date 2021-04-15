@@ -22,10 +22,10 @@
             <td>{{ resource.created }}</td>
           </tr>
         </table>
-        <button class="btn btn-sm btn-primary">
+        <router-link class="btn btn-sm btn-primary" v-bind:to="`/page/resource/${this.resource.id}/details`">
           <font-awesome-icon icon="question-circle"/>
           Детальніше
-        </button>
+        </router-link>
 
         <button v-on:click="pauseResource()" v-if="resource.status === 'ACTIVE'" class="btn btn-sm btn-warning">
           <font-awesome-icon icon="pause"/>

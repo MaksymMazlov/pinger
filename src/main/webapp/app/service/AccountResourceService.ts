@@ -7,4 +7,10 @@ export default class AccountResourceService {
             axios.get('/api/resources').then(res => resolve(res.data)).catch(err => reject(err));
         }))
     }
+
+    public getResourceById(resourceId: number): Promise<AccountResource> {
+        return new Promise<AccountResource>(((resolve, reject) => {
+            axios.get(`/api/resource/${resourceId}`).then(res => resolve(res.data)).catch(err => reject(err));
+        }))
+    }
 }
