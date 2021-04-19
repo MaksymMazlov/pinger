@@ -27,10 +27,11 @@ public class MonitoringService
     private static final Logger LOG = LoggerFactory.getLogger(MonitoringService.class);
     @Autowired
     private AccountResourceRepository resourceRepository;
-    private ScheduledExecutorService service = Executors.newScheduledThreadPool(4);
     @Autowired
     private ApplicationContext context;
-    private Map<Integer, ScheduledFuture> futureMap = new HashMap<>();
+
+    private final ScheduledExecutorService service = Executors.newScheduledThreadPool(4);
+    private final Map<Integer, ScheduledFuture> futureMap = new HashMap<>();
 
     @PostConstruct
     public void startAllTasks()
@@ -63,14 +64,14 @@ public class MonitoringService
     public void enqueue(AccountResource elem)
     {
 
-        if (elem.getType().equals(MonitoringType.URL.name()))
+        if (elem.getType().equals(MonitoringType.URL))
         {
             HttpResourceTask httpTask = context.getBean(HttpResourceTask.class, elem);
             ScheduledFuture scheduledFuture = service.scheduleAtFixedRate(httpTask, 0, elem.getInterval(), TimeUnit.MINUTES);
             futureMap.put(elem.getId(), scheduledFuture);
             LOG.info("IN startAllTasks - start httpTask for: {}", elem.getName());
         }
-        else if (elem.getType().equals(MonitoringType.PING.name()))
+        else if (elem.getType().equals(MonitoringType.PING))
         {
             PingResourceTask pingTask = context.getBean(PingResourceTask.class, elem);
             ScheduledFuture scheduledFuture = service.scheduleAtFixedRate(pingTask, 0, elem.getInterval(), TimeUnit.MINUTES);
