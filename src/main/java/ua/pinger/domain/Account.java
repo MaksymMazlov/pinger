@@ -1,13 +1,23 @@
 package ua.pinger.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -19,6 +29,7 @@ public class Account implements UserDetails
     private String password;
     private Timestamp created;
     private String token;
+    private List<AccountSettings> settings;
 
     @Id
     @Column(name = "id")
@@ -121,6 +132,18 @@ public class Account implements UserDetails
     public void setToken(String token)
     {
         this.token = token;
+    }
+
+    @OneToMany(mappedBy = "account")
+    @JsonIgnore
+    public List<AccountSettings> getSettings()
+    {
+        return settings;
+    }
+
+    public void setSettings(List<AccountSettings> settings)
+    {
+        this.settings = settings;
     }
 
     @Override

@@ -1,6 +1,17 @@
 package ua.pinger.domain;
 
-import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import ua.pinger.domain.enumeration.AccountSetting;
+
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import java.util.Objects;
 
 @Entity
@@ -8,9 +19,10 @@ import java.util.Objects;
 public class AccountSettings
 {
     private int id;
-    private String key;
+    private AccountSetting key;
     private String value;
     private int accountId;
+    private Account account;
 
     @Id
     @Column(name = "id")
@@ -26,12 +38,13 @@ public class AccountSettings
 
     @Basic
     @Column(name = "key")
-    public String getKey()
+    @Enumerated(EnumType.STRING)
+    public AccountSetting getKey()
     {
         return key;
     }
 
-    public void setKey(String key)
+    public void setKey(AccountSetting key)
     {
         this.key = key;
     }
@@ -58,6 +71,19 @@ public class AccountSettings
     public void setAccountId(int accountId)
     {
         this.accountId = accountId;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "account_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JsonIgnore
+    public Account getAccount()
+    {
+        return account;
+    }
+
+    public void setAccount(Account account)
+    {
+        this.account = account;
     }
 
     @Override

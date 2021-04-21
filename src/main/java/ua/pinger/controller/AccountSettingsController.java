@@ -3,7 +3,12 @@ package ua.pinger.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import ua.pinger.domain.Account;
 import ua.pinger.domain.AccountSettings;
 import ua.pinger.service.AccountSettingsService;
@@ -29,6 +34,6 @@ public class AccountSettingsController
     {
         Account account = (Account) authentication.getPrincipal();
         int accountId = account.getId();
-        return settingsService.updateSetting(accountId,accountSetting,id);
+        return settingsService.updateSetting(accountId, accountSetting, id);
     }
 }

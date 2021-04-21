@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import ua.pinger.domain.Account;
 import ua.pinger.dto.RequestAccountRegistrationDto;
 import ua.pinger.repository.AccountRepository;
-import ua.pinger.service.emailSender.MailService;
+import ua.pinger.service.notifications.MailService;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;

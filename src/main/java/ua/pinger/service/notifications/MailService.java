@@ -1,4 +1,4 @@
-package ua.pinger.service.emailSender;
+package ua.pinger.service.notifications;
 
 import org.springframework.stereotype.Service;
 
@@ -15,7 +15,7 @@ import java.util.Properties;
 @Service
 public class MailService
 {
-    public static void sendMail(String recipient, String subject, String text)
+    public void sendMail(String recipient, String subject, String text)
     {
         String meAccountEmail = "mazlovmaxim@gmail.com";
         String password = "osdthpilcwotlbnx";

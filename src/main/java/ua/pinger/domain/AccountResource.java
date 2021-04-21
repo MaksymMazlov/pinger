@@ -31,6 +31,7 @@ public class AccountResource
     private Timestamp created;
     private int accountId;
     private Account account;
+    private boolean smsNotification;
 
     @Id
     @Column(name = "id")
@@ -142,6 +143,18 @@ public class AccountResource
     public void setAccount(Account account)
     {
         this.account = account;
+    }
+
+    @Basic
+    @Column(name = "sms_notification")
+    public boolean isSmsNotification()
+    {
+        return smsNotification;
+    }
+
+    public void setSmsNotification(boolean smsNotification)
+    {
+        this.smsNotification = smsNotification;
     }
 
     @Override

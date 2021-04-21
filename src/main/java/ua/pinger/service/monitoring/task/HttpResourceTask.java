@@ -11,8 +11,8 @@ import ua.pinger.domain.MonitoringEvents;
 import ua.pinger.domain.enumeration.EventType;
 import ua.pinger.repository.MonitoringByDayRepository;
 import ua.pinger.repository.MonitoringEventRepository;
-import ua.pinger.service.emailSender.MailService;
 import ua.pinger.service.monitoring.MonitoringResult;
+import ua.pinger.service.notifications.NotificationService;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -29,14 +29,15 @@ import java.time.LocalTime;
 public class HttpResourceTask extends AbstractTask
 {
     private static final Logger LOG = LoggerFactory.getLogger(HttpResourceTask.class);
-    private AccountResource resource;
+    private final AccountResource resource;
 
     @Autowired
     private MonitoringByDayRepository byDayRepository;
     @Autowired
     private MonitoringEventRepository eventRepository;
     @Autowired
-    private MailService mailService;
+    private NotificationService notificationService;
+
     public HttpResourceTask(AccountResource resource)
     {
         this.resource = resource;
@@ -96,26 +97,14 @@ public class HttpResourceTask extends AbstractTask
                 event.setAccountResourceId(resource.getId());
                 eventRepository.save(event);
                 LOG.info("--------------- EVENT HTTP ADD: {}, DURATION: {}", monitoringResult.isAvailable() ? "UP" : "DOWN", event.getDuration());
-                sendMail(event);
+
+                notificationService.sendMail(event);
+
+                if (resource.isSmsNotification())
+                {
+                    notificationService.sendSms(event);
+                }
             }
         }
-    }
-
-    private void sendMail(MonitoringEvents event)
-    {
-        String subjectUp = "\uD83D\uDE01 Pinger - " + resource.getName() + " : " + event.getReason();
-        String subjectDown = "\uD83D\uDE31 Pinger - " + resource.getName() + " : " + event.getReason();
-        String text = "Hello.\n" +
-                "We are informing you: " +
-                resource.getName() + " : " + event.getReason();
-        if (event.getType() == EventType.UP)
-        {
-            mailService.sendMail(resource.getAccount().getEmail(), subjectUp, text);
-        }
-        else if (event.getType() == EventType.DOWN)
-        {
-            mailService.sendMail(resource.getAccount().getEmail(), subjectDown, text);
-        }
-        LOG.info("HttpResourceTask->createEvent: sendMail to {}", resource.getAccount().getEmail());
     }
 }
