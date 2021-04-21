@@ -11,6 +11,7 @@ import ua.pinger.domain.MonitoringEvents;
 import ua.pinger.domain.enumeration.EventType;
 import ua.pinger.repository.MonitoringByDayRepository;
 import ua.pinger.repository.MonitoringEventRepository;
+import ua.pinger.service.emailSender.MailService;
 import ua.pinger.service.monitoring.MonitoringResult;
 
 import java.io.IOException;
@@ -34,7 +35,8 @@ public class HttpResourceTask extends AbstractTask
     private MonitoringByDayRepository byDayRepository;
     @Autowired
     private MonitoringEventRepository eventRepository;
-
+    @Autowired
+    private MailService mailService;
     public HttpResourceTask(AccountResource resource)
     {
         this.resource = resource;
@@ -54,13 +56,13 @@ public class HttpResourceTask extends AbstractTask
             {
                 monitoringResult.setAvailable(false);
                 monitoringResult.setReason("HTTP: " + connection.getResponseMessage());
-                LOG.info("IN run - RESPONSE CODE: {} available FALSE for URL: {}", responseCode, resource.getHost());
+                LOG.info("IN run HTTP - RESPONSE CODE: {} available FALSE for URL: {}", responseCode, resource.getHost());
             }
             else
             {
                 monitoringResult.setAvailable(true);
                 monitoringResult.setReason("HTTP: " + connection.getResponseMessage());
-                LOG.info("IN run - RESPONSE CODE: {} available TRUE for URL: {}", responseCode, resource.getHost());
+                LOG.info("IN run HTTP - RESPONSE CODE: {} available TRUE for URL: {}", responseCode, resource.getHost());
             }
         }
         catch (IOException e)
@@ -93,8 +95,27 @@ public class HttpResourceTask extends AbstractTask
                 event.setDuration(event.getDuration() + resource.getInterval());
                 event.setAccountResourceId(resource.getId());
                 eventRepository.save(event);
-                LOG.info("--------------- EVENT PING ADD: {}, DURATION: {}", monitoringResult.isAvailable() ? "UP" : "DOWN", event.getDuration());
+                LOG.info("--------------- EVENT HTTP ADD: {}, DURATION: {}", monitoringResult.isAvailable() ? "UP" : "DOWN", event.getDuration());
+                sendMail(event);
             }
         }
+    }
+
+    private void sendMail(MonitoringEvents event)
+    {
+        String subjectUp = "\uD83D\uDE01 Pinger - " + resource.getName() + " : " + event.getReason();
+        String subjectDown = "\uD83D\uDE31 Pinger - " + resource.getName() + " : " + event.getReason();
+        String text = "Hello.\n" +
+                "We are informing you: " +
+                resource.getName() + " : " + event.getReason();
+        if (event.getType() == EventType.UP)
+        {
+            mailService.sendMail(resource.getAccount().getEmail(), subjectUp, text);
+        }
+        else if (event.getType() == EventType.DOWN)
+        {
+            mailService.sendMail(resource.getAccount().getEmail(), subjectDown, text);
+        }
+        LOG.info("HttpResourceTask->createEvent: sendMail to {}", resource.getAccount().getEmail());
     }
 }
