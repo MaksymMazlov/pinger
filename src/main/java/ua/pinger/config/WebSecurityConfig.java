@@ -11,7 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import ua.pinger.service.UserDetailsServiceImpl;
 
 @Configuration
@@ -26,7 +26,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
                 .antMatchers(HttpMethod.POST, "/api/account").permitAll()
                 .antMatchers("/api/**").authenticated()
                 .antMatchers("/**").permitAll()
-                .and().formLogin().loginPage("/api/login").permitAll()
+                .and().formLogin().failureHandler(new SimpleUrlAuthenticationFailureHandler())
+                .loginPage("/api/login").permitAll()
                 .and().logout().permitAll()
                 .and().csrf().disable();
     }
@@ -36,7 +37,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
     {
         return new BCryptPasswordEncoder();
     }
+
     @Bean
+    @Override
     public UserDetailsService userDetailsService()
     {
         return new UserDetailsServiceImpl();
