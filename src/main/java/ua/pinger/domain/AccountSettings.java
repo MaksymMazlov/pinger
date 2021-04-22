@@ -3,19 +3,11 @@ package ua.pinger.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import ua.pinger.domain.enumeration.AccountSetting;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "account_settings", schema = "pinger")
+@Table(name = "account_settings")
 public class AccountSettings
 {
     private int id;
@@ -36,7 +28,6 @@ public class AccountSettings
         this.id = id;
     }
 
-    @Basic
     @Column(name = "key")
     @Enumerated(EnumType.STRING)
     public AccountSetting getKey()
@@ -49,7 +40,6 @@ public class AccountSettings
         this.key = key;
     }
 
-    @Basic
     @Column(name = "value")
     public String getValue()
     {
@@ -61,7 +51,6 @@ public class AccountSettings
         this.value = value;
     }
 
-    @Basic
     @Column(name = "account_id")
     public int getAccountId()
     {

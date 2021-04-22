@@ -2,19 +2,13 @@ package ua.pinger.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.Objects;
 
 @Entity
-@Table(name = "monitoring_by_day", schema = "pinger")
+@Table(name = "monitoring_by_day")
 public class MonitoringByDay
 {
     private int id;
@@ -37,7 +31,6 @@ public class MonitoringByDay
         this.id = id;
     }
 
-    @Basic
     @Column(name = "date")
     public Date getDate()
     {
@@ -49,7 +42,6 @@ public class MonitoringByDay
         this.date = date;
     }
 
-    @Basic
     @Column(name = "time")
     public Time getTime()
     {
@@ -61,7 +53,6 @@ public class MonitoringByDay
         this.time = time;
     }
 
-    @Basic
     @Column(name = "status")
     public String getStatus()
     {
@@ -73,7 +64,6 @@ public class MonitoringByDay
         this.status = status;
     }
 
-    @Basic
     @Column(name = "account_resource_id")
     public int getResourceId()
     {
@@ -85,7 +75,6 @@ public class MonitoringByDay
         this.resourceId = resourceId;
     }
 
-    @Basic
     @Column(name = "available")
     public boolean isAvailable()
     {

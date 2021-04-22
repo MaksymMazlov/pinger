@@ -3,20 +3,12 @@ package ua.pinger.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import ua.pinger.domain.enumeration.EventType;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
-@Table(name = "monitoring_events", schema = "pinger")
+@Table(name = "monitoring_events")
 public class MonitoringEvents
 {
     private int id;
@@ -39,7 +31,6 @@ public class MonitoringEvents
         this.id = id;
     }
 
-    @Basic
     @Enumerated(EnumType.STRING)
     @Column(name = "type")
     public EventType getType()
@@ -52,7 +43,6 @@ public class MonitoringEvents
         this.type = type;
     }
 
-    @Basic
     @Column(name = "date_time")
     public Timestamp getDateTime()
     {
@@ -64,7 +54,6 @@ public class MonitoringEvents
         this.dateTime = dateTime;
     }
 
-    @Basic
     @Column(name = "duration")
     public int getDuration()
     {
@@ -76,7 +65,6 @@ public class MonitoringEvents
         this.duration = duration;
     }
 
-    @Basic
     @Column(name = "reason")
     public String getReason()
     {
@@ -88,7 +76,6 @@ public class MonitoringEvents
         this.reason = reason;
     }
 
-    @Basic
     @Column(name = "account_resource_id")
     public int getAccountResourceId()
     {

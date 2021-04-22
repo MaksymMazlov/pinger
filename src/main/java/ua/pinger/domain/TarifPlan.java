@@ -2,18 +2,10 @@ package ua.pinger.domain;
 
 import ua.pinger.domain.enumeration.PlanName;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
-@Table(name = "tarif_plan", schema = "pinger")
+@Table(name = "tarif_plan")
 public class TarifPlan
 {
     private int id;
@@ -34,7 +26,7 @@ public class TarifPlan
         this.id = id;
     }
 
-    @Basic
+    
     @Column(name = "name")
     @Enumerated(EnumType.STRING)
     public PlanName getName()
@@ -47,7 +39,7 @@ public class TarifPlan
         this.name = name;
     }
 
-    @Basic
+    
     @Column(name = "description")
     public String getDescription()
     {
@@ -59,7 +51,7 @@ public class TarifPlan
         this.description = description;
     }
 
-    @Basic
+    
     @Column(name = "account_resource_limit")
     public int getResourceLimit()
     {

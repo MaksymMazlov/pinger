@@ -1,6 +1,5 @@
 package ua.pinger.domain;
 
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -9,7 +8,7 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
-@Table(name = "monitoring_by_week", schema = "pinger")
+@Table(name = "monitoring_by_week")
 public class MonitoringByWeek
 {
     private int id;
@@ -30,7 +29,6 @@ public class MonitoringByWeek
         this.id = id;
     }
 
-    @Basic
     @Column(name = "date")
     public LocalDate getDate()
     {
@@ -42,7 +40,6 @@ public class MonitoringByWeek
         this.date = date;
     }
 
-    @Basic
     @Column(name = "status")
     public String getStatus()
     {
@@ -54,14 +51,12 @@ public class MonitoringByWeek
         this.status = status;
     }
 
-    @Basic
     @Column(name = "available")
     public boolean isAvailable()
     {
         return isAvailable;
     }
 
-    @Basic
     @Column(name = "account_resource_id")
     public int getAccountResourceId()
     {

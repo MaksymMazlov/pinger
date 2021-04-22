@@ -5,17 +5,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Collections;
@@ -23,7 +13,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "account", schema = "pinger")
+@Table(name = "account")
 public class Account implements UserDetails
 {
     private int id;
@@ -48,7 +38,6 @@ public class Account implements UserDetails
         this.id = id;
     }
 
-    @Basic
     @Column(name = "email")
     public String getEmail()
     {
@@ -67,7 +56,6 @@ public class Account implements UserDetails
         return Collections.singletonList(new SimpleGrantedAuthority("user"));
     }
 
-    @Basic
     @Column(name = "password")
     public String getPassword()
     {
@@ -114,7 +102,6 @@ public class Account implements UserDetails
         this.password = password;
     }
 
-    @Basic
     @Column(name = "created")
     public Timestamp getCreated()
     {
@@ -126,7 +113,6 @@ public class Account implements UserDetails
         this.created = created;
     }
 
-    @Basic
     @Column(name = "token")
     public String getToken()
     {
@@ -150,7 +136,6 @@ public class Account implements UserDetails
         this.settings = settings;
     }
 
-    @Basic
     @Column(name = "tarif_plan_id")
     public int getTarifPlanId()
     {

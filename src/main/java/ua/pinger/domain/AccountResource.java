@@ -4,22 +4,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import ua.pinger.domain.enumeration.MonitoringType;
 import ua.pinger.domain.enumeration.ResourceStatus;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
-@Table(name = "account_resource", schema = "pinger")
+@Table(name = "account_resource")
 public class AccountResource
 {
     private int id;
@@ -46,7 +36,6 @@ public class AccountResource
         this.id = id;
     }
 
-    @Basic
     @Column(name = "name")
     public String getName()
     {
@@ -58,7 +47,6 @@ public class AccountResource
         this.name = name;
     }
 
-    @Basic
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     public ResourceStatus getStatus()
@@ -71,7 +59,6 @@ public class AccountResource
         this.status = status;
     }
 
-    @Basic
     @Enumerated(EnumType.STRING)
     @Column(name = "type")
     public MonitoringType getType()
@@ -84,7 +71,6 @@ public class AccountResource
         this.type = type;
     }
 
-    @Basic
     @Column(name = "host")
     public String getHost()
     {
@@ -96,7 +82,6 @@ public class AccountResource
         this.host = host;
     }
 
-    @Basic
     @Column(name = "monitoring_interval")
     public int getInterval()
     {
@@ -108,7 +93,6 @@ public class AccountResource
         this.monitoringInterval = interval;
     }
 
-    @Basic
     @Column(name = "created")
     public Timestamp getCreated()
     {
@@ -120,7 +104,6 @@ public class AccountResource
         this.created = created;
     }
 
-    @Basic
     @Column(name = "account_id")
     public int getAccountId()
     {
@@ -145,7 +128,6 @@ public class AccountResource
         this.account = account;
     }
 
-    @Basic
     @Column(name = "sms_notification")
     public boolean isSmsNotification()
     {
