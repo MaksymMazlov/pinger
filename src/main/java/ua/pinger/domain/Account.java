@@ -11,6 +11,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -30,6 +32,8 @@ public class Account implements UserDetails
     private Timestamp created;
     private String token;
     private List<AccountSettings> settings;
+    private int tarifPlanId;
+    private TarifPlan plan;
 
     @Id
     @Column(name = "id")
@@ -144,6 +148,30 @@ public class Account implements UserDetails
     public void setSettings(List<AccountSettings> settings)
     {
         this.settings = settings;
+    }
+
+    @Basic
+    @Column(name = "tarif_plan_id")
+    public int getTarifPlanId()
+    {
+        return tarifPlanId;
+    }
+
+    public void setTarifPlanId(int tarifPlanId)
+    {
+        this.tarifPlanId = tarifPlanId;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "tarif_plan_id", referencedColumnName = "id", insertable = false, updatable = false)
+    public TarifPlan getPlan()
+    {
+        return plan;
+    }
+
+    public void setPlan(TarifPlan plan)
+    {
+        this.plan = plan;
     }
 
     @Override

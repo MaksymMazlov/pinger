@@ -49,7 +49,7 @@ public class ResourceController
                                        @RequestBody @Validated RequestCreateOrUpdateResourceDto resourceDto)
     {
         Account account = (Account) authentication.getPrincipal();
-        return resourceService.add(account.getId(), resourceDto);
+        return resourceService.add(account, resourceDto);
     }
 
     @PutMapping(value = "/api/resource/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

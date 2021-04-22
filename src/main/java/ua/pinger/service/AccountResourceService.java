@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.pinger.RestApiException;
+import ua.pinger.domain.Account;
 import ua.pinger.domain.AccountResource;
 import ua.pinger.domain.enumeration.ResourceStatus;
 import ua.pinger.dto.RequestChangeStatusDto;
@@ -25,6 +26,7 @@ public class AccountResourceService
     @Autowired
     private MonitoringService monitoringService;
 
+
     public List<AccountResource> getAll(int accountId)
     {
         return resourceRepository.findByAccountId(accountId);
@@ -35,17 +37,21 @@ public class AccountResourceService
         return resourceRepository.findByAccountIdAndId(accountId, id);
     }
 
-    public AccountResource add(int accountId, RequestCreateOrUpdateResourceDto resourceDto)
+    public AccountResource add(Account account, RequestCreateOrUpdateResourceDto resourceDto)
     {
+        int countResources = resourceRepository.countByAccountId(account.getId());
+        if (countResources >= account.getPlan().getResourceLimit())
+        {
+            throw new RestApiException("Tarif plan limit exceeded.");
+        }
         AccountResource resource = new AccountResource();
-
         resource.setName(resourceDto.getName());
         resource.setStatus(ResourceStatus.ACTIVE);
         resource.setHost(resourceDto.getHost());
         resource.setType(resourceDto.getType());
         resource.setInterval(resourceDto.getMonitoringInterval());
         resource.setCreated(Timestamp.valueOf(LocalDateTime.now()));
-        resource.setAccountId(accountId);
+        resource.setAccountId(account.getId());
         LOG.info("IN add - account resource: successfully add");
         resource = resourceRepository.save(resource);
         monitoringService.enqueue(resource);

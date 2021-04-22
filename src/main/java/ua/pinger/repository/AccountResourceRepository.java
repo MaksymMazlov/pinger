@@ -12,5 +12,7 @@ public interface AccountResourceRepository extends JpaRepository<AccountResource
     List<AccountResource> findByAccountId(int accountId);
 
     AccountResource findByAccountIdAndId(int accountId, int id);
+
+    int countByAccountId(int accountId);
 }
 

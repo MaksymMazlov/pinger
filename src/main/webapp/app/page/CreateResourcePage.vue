@@ -50,7 +50,7 @@ export default class CreateResourcePage extends Vue {
   public createResource(): void {
     axios.post('/api/resource', this.resource).then(r=>{
       (<any>this).$router.go(-1);
-    });
+    }).catch(err=>this.error=err);
   }
 }
 </script>

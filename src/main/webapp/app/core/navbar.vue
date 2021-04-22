@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
-      <a class="navbar-brand" href="/">Pinger</a>
+      <router-link class="navbar-brand" to="/">Pinger</router-link>
       <button class="navbar-toggler" type="button"
               data-bs-toggle="collapse"
               data-bs-target="#navbarSupportedContent"

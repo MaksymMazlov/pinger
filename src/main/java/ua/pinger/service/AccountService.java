@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ua.pinger.domain.Account;
+import ua.pinger.domain.enumeration.PlanName;
 import ua.pinger.dto.RequestAccountRegistrationDto;
 import ua.pinger.repository.AccountRepository;
 import ua.pinger.service.notifications.MailService;
@@ -31,9 +32,10 @@ public class AccountService
 
         account.setPassword(encoder.encode(dto.getPassword()));
         account.setCreated(Timestamp.valueOf(LocalDateTime.now()));
+        account.setTarifPlanId(PlanName.FREE.getId());
 
         LOG.info("IN register - account email: {} successfully registered", account.getEmail());
-        mailService.sendMail(account.getEmail(),"\uD83E\uDD29Pinger - successful registration!","Thank you for registration.");
+        mailService.sendMail(account.getEmail(), "\uD83E\uDD29Pinger - successful registration!", "Thank you for registration. You have free plan.");
         LOG.info("AccountService: register  - send email: {} successfully registered", account.getEmail());
         return accountRepository.save(account);
     }
