@@ -5,7 +5,16 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Collections;
@@ -38,7 +47,7 @@ public class Account implements UserDetails
         this.id = id;
     }
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     public String getEmail()
     {
         return email;

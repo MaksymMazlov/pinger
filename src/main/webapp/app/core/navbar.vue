@@ -10,18 +10,24 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <ul class="navbar-nav me-auto">
           <li class="nav-item">
-            <router-link class="nav-link active" to="/">Головна</router-link>
+            <router-link class="nav-link active" to="/"><font-awesome-icon icon="home"/> Головна</router-link>
           </li>
           <li v-if="!authenticated" class="nav-item">
-            <router-link class="nav-link" to="/page/account/login">Авторизація</router-link>
+            <router-link class="nav-link" to="/page/account/login"><font-awesome-icon icon="user"/> Авторизація</router-link>
           </li>
           <li v-if="!authenticated" class="nav-item">
-            <router-link class="nav-link" to="/page/account/registration">Реєстрація</router-link>
+            <router-link class="nav-link" to="/page/account/registration"><font-awesome-icon icon="plus"/> Реєстрація</router-link>
           </li>
           <li v-if="authenticated" class="nav-item">
-            <router-link class="nav-link" to="/page/resource">Мої Ресурси</router-link>
+            <router-link class="nav-link" to="/page/resource"><font-awesome-icon icon="list"/> Мої Ресурси</router-link>
+          </li>
+        </ul>
+
+        <ul class="navbar-nav ml-auto">
+          <li v-if="authenticated" class="nav-item">
+            <a href="#" class="nav-link"><font-awesome-icon icon="user"/> Профіль</a>
           </li>
         </ul>
       </div>
