@@ -13,4 +13,11 @@ export default class AccountResourceService {
             axios.get(`/api/resource/${resourceId}`).then(res => resolve(res.data)).catch(err => reject(err));
         }))
     }
+
+    public getResourceUptime(resourceId:number): Promise<Number> {
+        return new Promise<Number>(((resolve, reject) => {
+            axios.get(`/api/resource/${resourceId}/uptime`).then(res => resolve(res.data.uptime)).catch(err => reject(err));
+        }))
+    }
+
 }

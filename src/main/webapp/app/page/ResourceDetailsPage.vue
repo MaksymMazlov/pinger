@@ -23,9 +23,13 @@
             <td>Uptime</td>
             <td>
               <div class="progress">
-                <div class="progress-bar bg-warning" role="progressbar" style="width: 75%;" aria-valuenow="75"
+                <div class="progress-bar"
+                     v-bind:class="{'bg-warning':uptime < 95, 'bg-success': uptime >= 95}"
+                     v-bind:style="{width: uptime + '%'}"
+                     v-bind:aria-valuenow="uptime"
+                     role="progressbar"
                      aria-valuemin="0"
-                     aria-valuemax="100">75%
+                     aria-valuemax="100">{{ uptime }}%
                 </div>
               </div>
             </td>
@@ -97,6 +101,7 @@ export default class ResourceDetailsPage extends Vue {
   @Inject('accountResourceService')
   protected accountResourceService: () => AccountResourceService;
   private resource: IAccountResource = null;
+  private uptime: number = null;
 
   beforeRouteEnter(to, from, next) {
     next(vm => {
@@ -108,6 +113,7 @@ export default class ResourceDetailsPage extends Vue {
 
   public init(resourceId: number): void {
     this.accountResourceService().getResourceById(resourceId).then(r => this.resource = r);
+    this.accountResourceService().getResourceUptime(resourceId).then(r => this.uptime = r);
   }
 }
 </script>

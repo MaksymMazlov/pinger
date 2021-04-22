@@ -18,7 +18,7 @@
           </div>
           <label>Хост</label>
           <input class="form-control" type="text" v-model="resource.host">
-          <label>Інтервал</label>
+          <label>Інтервал (хвилин)</label>
           <input class="form-control" type="number" v-model="resource.monitoringInterval">
           <button type="button" class="btn btn-primary my-2" v-on:click="createResource">Створити</button>
         </form>
