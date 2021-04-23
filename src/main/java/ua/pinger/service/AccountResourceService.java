@@ -10,11 +10,14 @@ import ua.pinger.domain.AccountResource;
 import ua.pinger.domain.enumeration.ResourceStatus;
 import ua.pinger.dto.RequestChangeStatusDto;
 import ua.pinger.dto.RequestCreateOrUpdateResourceDto;
+import ua.pinger.dto.ResponseAccountResourceDto;
 import ua.pinger.repository.AccountResourceRepository;
+import ua.pinger.service.mapper.ResponseAccountResourceMapper;
 import ua.pinger.service.monitoring.MonitoringService;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -25,16 +28,27 @@ public class AccountResourceService
     private AccountResourceRepository resourceRepository;
     @Autowired
     private MonitoringService monitoringService;
+    @Autowired
+    private ResponseAccountResourceMapper accountResourceMapper;
 
-
-    public List<AccountResource> getAll(int accountId)
+    public List<ResponseAccountResourceDto> getAll(int accountId)
     {
-        return resourceRepository.findByAccountId(accountId);
+        List<AccountResource> accountResources = resourceRepository.findByAccountId(accountId);
+        List<ResponseAccountResourceDto> responseResources = new ArrayList<>();
+        for (AccountResource accountResource : accountResources)
+        {
+            ResponseAccountResourceDto resourceDto = accountResourceMapper.toDto(accountResource);
+            responseResources.add(resourceDto);
+        }
+
+        return responseResources;
     }
 
-    public AccountResource getResource(int accountId, int id)
+    public ResponseAccountResourceDto getResource(int accountId, int id)
     {
-        return resourceRepository.findByAccountIdAndId(accountId, id);
+        AccountResource accountResource = resourceRepository.findByAccountIdAndId(accountId, id);
+
+        return accountResourceMapper.toDto(accountResource);
     }
 
     public AccountResource add(Account account, RequestCreateOrUpdateResourceDto resourceDto)

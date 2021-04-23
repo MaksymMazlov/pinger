@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.pinger.domain.MonitoringByDay;
-import ua.pinger.dto.RequestMonitorByDayUptime;
+import ua.pinger.dto.ResponseMonitorByDayUptime;
 import ua.pinger.repository.MonitoringByDayRepository;
 
 import java.math.BigDecimal;
@@ -18,7 +18,7 @@ public class MonitoringByDayService
     @Autowired
     private MonitoringByDayRepository monitoringByDayRepository;
 
-    public RequestMonitorByDayUptime getUptimeForPercent(int accountID, int resourceId)
+    public ResponseMonitorByDayUptime getUptimeForPercent(int accountID, int resourceId)
     {
 
         List<MonitoringByDay> allMonitorByDay = monitoringByDayRepository.findAllByAccountIdAndResourceId(accountID, resourceId);
@@ -31,7 +31,7 @@ public class MonitoringByDayService
             }
         }
         BigDecimal percent = BigDecimal.valueOf(100D * countTrue / allMonitorByDay.size());
-        RequestMonitorByDayUptime dayUptime = new RequestMonitorByDayUptime();
+        ResponseMonitorByDayUptime dayUptime = new ResponseMonitorByDayUptime();
         dayUptime.setUptime(percent.setScale(2, BigDecimal.ROUND_HALF_UP));
         LOG.info("UPTIME ------> : {} %", dayUptime.getUptime());
         return dayUptime;

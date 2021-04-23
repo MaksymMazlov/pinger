@@ -1,6 +1,7 @@
 package ua.pinger.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
@@ -16,7 +17,9 @@ import ua.pinger.domain.Account;
 import ua.pinger.domain.AccountResource;
 import ua.pinger.dto.RequestChangeStatusDto;
 import ua.pinger.dto.RequestCreateOrUpdateResourceDto;
-import ua.pinger.dto.RequestMonitorByDayUptime;
+import ua.pinger.dto.ResponseAccountResourceDto;
+import ua.pinger.dto.ResponseMonitorByDayUptime;
+import ua.pinger.repository.AccountResourcePagesRepository;
 import ua.pinger.service.AccountResourceService;
 import ua.pinger.service.MonitoringByDayService;
 
@@ -26,19 +29,29 @@ import java.util.List;
 public class ResourceController
 {
     @Autowired
-    AccountResourceService resourceService;
+    private AccountResourceService resourceService;
     @Autowired
-    MonitoringByDayService monitoringByDayService;
+    private MonitoringByDayService monitoringByDayService;
+    @Autowired
+    private AccountResourcePagesRepository resourcePagesRepository;
 
     @GetMapping("/api/resources")
-    public List<AccountResource> getResources(Authentication authentication)
+    public List<ResponseAccountResourceDto> getResources(Authentication authentication)
     {
         Account account = (Account) authentication.getPrincipal();
         return resourceService.getAll(account.getId());
     }
 
+    @GetMapping("/api/resources/page/{page}")
+    public List<AccountResource> getResourcesForPage(Authentication authentication,@PathVariable int page)
+    {
+        Account account = (Account) authentication.getPrincipal();
+        PageRequest pageRequest = PageRequest.of(page,10);
+        return resourcePagesRepository.findAllByAccountIdOrderByIdDesc(account.getId(),pageRequest);
+    }
+
     @GetMapping("/api/resource/{id}")
-    public AccountResource getResource(Authentication authentication, @PathVariable int id)
+    public ResponseAccountResourceDto getResource(Authentication authentication, @PathVariable int id)
     {
         Account account = (Account) authentication.getPrincipal();
         return resourceService.getResource(account.getId(), id);
@@ -78,7 +91,7 @@ public class ResourceController
     }
 
     @GetMapping(value = "/api/resource/{id}/uptime", produces = MediaType.APPLICATION_JSON_VALUE)
-    public RequestMonitorByDayUptime getUptime(Authentication authentication, @PathVariable int id)
+    public ResponseMonitorByDayUptime getUptime(Authentication authentication, @PathVariable int id)
     {
         Account account = (Account) authentication.getPrincipal();
 

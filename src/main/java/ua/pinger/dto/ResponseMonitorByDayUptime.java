@@ -2,7 +2,7 @@ package ua.pinger.dto;
 
 import java.math.BigDecimal;
 
-public class RequestMonitorByDayUptime
+public class ResponseMonitorByDayUptime
 {
     private BigDecimal uptime;
 
