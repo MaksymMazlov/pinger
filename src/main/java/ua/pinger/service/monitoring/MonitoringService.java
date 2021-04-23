@@ -40,7 +40,15 @@ public class MonitoringService
         LOG.info("IN startAllTasks - find {} resources", resourceList.size());
         for (AccountResource elem : resourceList)
         {
-            enqueue(elem);
+            try
+            {
+                enqueue(elem);
+            }
+            catch (Exception e)
+            {
+                LOG.error("Cant create task for {}", elem);
+            }
+
         }
         startMonitoringDayToWeek();
     }

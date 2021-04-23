@@ -1,9 +1,10 @@
 package ua.pinger.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import ua.pinger.RestApiException;
 import ua.pinger.domain.AccountSettings;
+import ua.pinger.exception.RestApiException;
 import ua.pinger.repository.AccountSettingsRepository;
 
 import java.util.List;
@@ -21,12 +22,12 @@ public class AccountSettingsService
 
     public AccountSettings updateSetting(int accountId, AccountSettings setting, int id)
     {
-        AccountSettings oldAccountSetting = accountSettingsRepository.findByIdAndAccountId(id,accountId);
-        if (oldAccountSetting!=null)
+        AccountSettings oldAccountSetting = accountSettingsRepository.findByIdAndAccountId(id, accountId);
+        if (oldAccountSetting != null)
         {
             oldAccountSetting.setValue(setting.getValue());
             return accountSettingsRepository.save(oldAccountSetting);
         }
-        throw new RestApiException("Not found account settings by id");
+        throw new RestApiException(HttpStatus.BAD_REQUEST, "Not found account settings by id");
     }
 }

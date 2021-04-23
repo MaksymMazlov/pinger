@@ -2,6 +2,8 @@ package ua.pinger.dto;
 
 import ua.pinger.domain.enumeration.MonitoringType;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 public class RequestCreateOrUpdateResourceDto
@@ -13,6 +15,8 @@ public class RequestCreateOrUpdateResourceDto
     @NotNull
     private String host;
     @NotNull
+    @Min(value = 1, message = "Interval must be from 1 to 1440")
+    @Max(value = 1440, message = "Interval must be from 1 to 1440")
     private int monitoringInterval;
 
     public String getName()

@@ -3,14 +3,15 @@ package ua.pinger.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import ua.pinger.RestApiException;
 import ua.pinger.domain.Account;
 import ua.pinger.domain.AccountResource;
 import ua.pinger.domain.enumeration.ResourceStatus;
 import ua.pinger.dto.RequestChangeStatusDto;
 import ua.pinger.dto.RequestCreateOrUpdateResourceDto;
 import ua.pinger.dto.ResponseAccountResourceDto;
+import ua.pinger.exception.RestApiException;
 import ua.pinger.repository.AccountResourceRepository;
 import ua.pinger.service.mapper.ResponseAccountResourceMapper;
 import ua.pinger.service.monitoring.MonitoringService;
@@ -87,7 +88,7 @@ public class AccountResourceService
             LOG.info("IN update - account resource: successfully update");
             return resourceRepository.save(oldResource);
         }
-        throw new RestApiException("Not found account resource by id");
+        throw new RestApiException(HttpStatus.BAD_REQUEST,"Not found account resource by id");
     }
 
     public void delete(int accountId, int id)
