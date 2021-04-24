@@ -7,4 +7,4 @@ jdk: oraclejdk8
 before_script:
   - npm install
 script:
-  - ./gradlew build --scan -s
+  - ./gradlew build
