@@ -13,6 +13,10 @@ public class ResponseAccountResourceMapper
 
     public ResponseAccountResourceDto toDto(AccountResource accountResource)
     {
+        if (accountResource == null)
+        {
+            return null;
+        }
         ResponseAccountResourceDto responseResource = new ResponseAccountResourceDto();
         responseResource.setId(accountResource.getId());
         responseResource.setName(accountResource.getName());
@@ -21,7 +25,7 @@ public class ResponseAccountResourceMapper
         responseResource.setHost(accountResource.getHost());
         responseResource.setMonitoringInterval(accountResource.getInterval());
         responseResource.setCreated(FORMATTER.format(accountResource.getCreated().toLocalDateTime()));
-        responseResource.setAccountId(responseResource.getAccountId());
+        responseResource.setAccountId(accountResource.getAccountId());
         responseResource.setSmsNotification(accountResource.isSmsNotification());
         return responseResource;
     }

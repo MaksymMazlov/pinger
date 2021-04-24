@@ -49,7 +49,7 @@ public class AccountResourceService
     {
         AccountResource accountResource = resourceRepository.findByAccountIdAndId(accountId, id);
 
-        return accountResourceMapper.toDto(accountResource);
+            return accountResourceMapper.toDto(accountResource);
     }
 
     public AccountResource add(Account account, RequestCreateOrUpdateResourceDto resourceDto)
@@ -88,7 +88,7 @@ public class AccountResourceService
             LOG.info("IN update - account resource: successfully update");
             return resourceRepository.save(oldResource);
         }
-        throw new RestApiException(HttpStatus.BAD_REQUEST,"Not found account resource by id");
+        throw new RestApiException(HttpStatus.BAD_REQUEST, "Not found account resource by id");
     }
 
     public void delete(int accountId, int id)
