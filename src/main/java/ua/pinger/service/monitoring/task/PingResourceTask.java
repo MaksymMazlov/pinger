@@ -37,7 +37,8 @@ public class PingResourceTask extends AbstractTask
     @Autowired
     private NotificationService notificationService;
 
-    public PingResourceTask(AccountResource resource)
+
+    public void setResource(AccountResource resource)
     {
         this.resource = resource;
     }

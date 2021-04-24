@@ -74,14 +74,16 @@ public class MonitoringService
 
         if (elem.getType().equals(MonitoringType.URL))
         {
-            HttpResourceTask httpTask = context.getBean(HttpResourceTask.class, elem);
+            HttpResourceTask httpTask = context.getBean(HttpResourceTask.class);
+            httpTask.setResource(elem);
             ScheduledFuture scheduledFuture = service.scheduleAtFixedRate(httpTask, 0, elem.getInterval(), TimeUnit.MINUTES);
             futureMap.put(elem.getId(), scheduledFuture);
             LOG.info("IN startAllTasks - start httpTask for: {}", elem.getName());
         }
         else if (elem.getType().equals(MonitoringType.PING))
         {
-            PingResourceTask pingTask = context.getBean(PingResourceTask.class, elem);
+            PingResourceTask pingTask = context.getBean(PingResourceTask.class);
+            pingTask.setResource(elem);
             ScheduledFuture scheduledFuture = service.scheduleAtFixedRate(pingTask, 0, elem.getInterval(), TimeUnit.MINUTES);
             futureMap.put(elem.getId(), scheduledFuture);
             LOG.info("IN startAllTasks - start pingTask for: {}", elem.getName());

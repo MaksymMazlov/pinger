@@ -29,7 +29,7 @@ import java.time.LocalTime;
 public class HttpResourceTask extends AbstractTask
 {
     private static final Logger LOG = LoggerFactory.getLogger(HttpResourceTask.class);
-    private final AccountResource resource;
+    private  AccountResource resource;
 
     @Autowired
     private MonitoringByDayRepository byDayRepository;
@@ -38,7 +38,7 @@ public class HttpResourceTask extends AbstractTask
     @Autowired
     private NotificationService notificationService;
 
-    public HttpResourceTask(AccountResource resource)
+    public void setResource(AccountResource resource)
     {
         this.resource = resource;
     }

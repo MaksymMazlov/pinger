@@ -24,10 +24,12 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-mail'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    testImplementation 'junit:junit:4.13'
+    testImplementation 'org.mockito:mockito-core:3.9.0'
 }
 
 test {
-    useJUnitPlatform()
+    useJUnit()
 }
 
 defaultTasks "bootRun"
