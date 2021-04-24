@@ -32,7 +32,7 @@ public class Account implements UserDetails
     private String token;
     private List<AccountSettings> settings;
     private int tarifPlanId;
-    private TarifPlan plan;
+    private TariffPlan plan;
 
     @Id
     @Column(name = "id")
@@ -158,12 +158,12 @@ public class Account implements UserDetails
 
     @ManyToOne
     @JoinColumn(name = "tarif_plan_id", referencedColumnName = "id", insertable = false, updatable = false)
-    public TarifPlan getPlan()
+    public TariffPlan getPlan()
     {
         return plan;
     }
 
-    public void setPlan(TarifPlan plan)
+    public void setPlan(TariffPlan plan)
     {
         this.plan = plan;
     }
