@@ -1,8 +1,9 @@
 language: java
-install: skip
 os: linux
 dist: trusty
 jdk: oraclejdk8
+node_js:
+  - 15
 script:
   - ./gradlew build
 before_cache:
