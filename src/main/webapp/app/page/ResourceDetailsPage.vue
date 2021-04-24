@@ -70,19 +70,14 @@
     <hr>
     <div class="row">
       <div class="col">
-        <div class="card border-danger my-2">
-          <div class="card-body">
-            <h5 class="card-title"><font-awesome-icon icon="exclamation-triangle"/> Ресурс став недоступний</h5>
-            <h6 class="card-subtitle mb-2 text-muted">2021.04.14 08:00</h6>
-            This is some text within a card body.
-          </div>
-        </div>
 
-        <div class="card border-success my-2">
-          <div class="card-body">
-            <h5 class="card-title"><font-awesome-icon icon="check-circle"/> Ресурс доступний</h5>
-            <h6 class="card-subtitle mb-2 text-muted">2021.04.14 07:00</h6>
-            This is some text within a card body.
+        <div v-for="event in events" :key="event.id">
+          <div class="card border-danger my-2">
+            <div class="card-body">
+              <h5 class="card-title"><font-awesome-icon icon="exclamation-triangle"/> {{event.type}}</h5>
+              <h6 class="card-subtitle mb-2 text-muted">{{event.dateTime}}</h6>
+              {{event.reason}}
+            </div>
           </div>
         </div>
       </div>
@@ -95,13 +90,20 @@ import Component from 'vue-class-component';
 import {Inject, Vue} from 'vue-property-decorator';
 import AccountResourceService from '../service/AccountResourceService';
 import {IAccountResource} from "../model/AccountResource";
+import MonitoringEventService from "../service/MonitoringEventService";
+import {IMonitoringEvent} from "../model/MonitoringEvent";
 
 @Component
 export default class ResourceDetailsPage extends Vue {
   @Inject('accountResourceService')
   protected accountResourceService: () => AccountResourceService;
+
+  @Inject('monitoringEventService')
+  protected monitoringEventService: () => MonitoringEventService;
+
   private resource: IAccountResource = null;
   private uptime: number = null;
+  private events: IMonitoringEvent[] = null;
 
   beforeRouteEnter(to, from, next) {
     next(vm => {
@@ -114,6 +116,7 @@ export default class ResourceDetailsPage extends Vue {
   public init(resourceId: number): void {
     this.accountResourceService().getResourceById(resourceId).then(r => this.resource = r);
     this.accountResourceService().getResourceUptime(resourceId).then(r => this.uptime = r);
+    this.monitoringEventService().getEvents(resourceId).then(r => this.events = r);
   }
 }
 </script>

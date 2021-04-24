@@ -7,6 +7,7 @@ import * as storageConfig from './storage/StorageConfig';
 import * as faConfig from './config/font-awesome-config'
 import AccountService from "./service/AccountService";
 import AccountResourceService from "./service/AccountResourceService";
+import MonitoringEventService from "./service/MonitoringEventService";
 
 const store = storageConfig.initVueXStore(Vue);
 const accountService = new AccountService(store, router);
@@ -43,7 +44,8 @@ new Vue({
     router,
     provide: {
         accountService: () => accountService,
-        accountResourceService: () => new AccountResourceService()
+        accountResourceService: () => new AccountResourceService(),
+        monitoringEventService: () => new MonitoringEventService()
     },
     store
 });

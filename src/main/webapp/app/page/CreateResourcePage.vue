@@ -6,7 +6,7 @@
 
     <div class="row row-cols-2">
       <div class="col">
-        <form class="my-2">
+        <form class="my-2" v-if="resource">
           <label>Навзва</label>
           <input class="form-control" type="text" v-model="resource.name">
           <div class="form-group">
