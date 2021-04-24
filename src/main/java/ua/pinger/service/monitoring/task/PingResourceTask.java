@@ -92,6 +92,7 @@ public class PingResourceTask extends AbstractTask
                 event.setDateTime(Timestamp.valueOf(LocalDateTime.now()));
                 event.setDuration(event.getDuration() + resource.getInterval());
                 event.setAccountResourceId(resource.getId());
+                event.setAccountResource(resource);
                 eventRepository.save(event);
                 LOG.info("--------------- EVENT PING ADD: {}, DURATION: {}", monitoringResult.isAvailable() ? "UP" : "DOWN", event.getDuration());
 

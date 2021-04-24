@@ -95,6 +95,7 @@ public class HttpResourceTask extends AbstractTask
                 event.setDateTime(Timestamp.valueOf(LocalDateTime.now()));
                 event.setDuration(event.getDuration() + resource.getInterval());
                 event.setAccountResourceId(resource.getId());
+                event.setAccountResource(resource);
                 eventRepository.save(event);
                 LOG.info("--------------- EVENT HTTP ADD: {}, DURATION: {}", monitoringResult.isAvailable() ? "UP" : "DOWN", event.getDuration());
 
