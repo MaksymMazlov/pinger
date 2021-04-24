@@ -5,6 +5,7 @@ import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 import '../content/scss/vendor.scss';
 import * as storageConfig from './storage/StorageConfig';
 import * as faConfig from './config/font-awesome-config'
+import {setupAxiosInterceptors} from './config/axios-config';
 import AccountService from "./service/AccountService";
 import AccountResourceService from "./service/AccountResourceService";
 import MonitoringEventService from "./service/MonitoringEventService";
@@ -49,3 +50,5 @@ new Vue({
     },
     store
 });
+
+setupAxiosInterceptors(() => console.log('Unauthorized!'));

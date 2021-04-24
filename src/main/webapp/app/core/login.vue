@@ -30,28 +30,19 @@ export default class Login {
   public password = null;
 
   public doLogin(): void {
-    const data = new FormData();
-    data.append('username', this.login);
-    data.append('password', this.password);
-
-    axios
-        .post('/api/login', data)
-        .then(result => {
-          // const bearerToken = result.headers.authorization;
-          // if (bearerToken && bearerToken.slice(0, 7) === 'Bearer ') {
-          //   const jwt = bearerToken.slice(7, bearerToken.length);
-          //   if (this.rememberMe) {
-          //     localStorage.setItem('jhi-authenticationToken', jwt);
-          //   } else {
-          //     sessionStorage.setItem('jhi-authenticationToken', jwt);
-          //   }
-          // }
-          this.authenticationError = false;
-          this.accountService().retrieveAccount();
-        })
-        .catch(() => {
-          this.authenticationError = true;
-        });
+    axios.post('/api/authorization', {
+      "email": this.login,
+      "password": this.password
+    }).then(result => {
+      const bearerToken = result.headers.authorization;
+      if (bearerToken) {
+        localStorage.setItem('AuthenticationToken', bearerToken);
+      }
+      this.authenticationError = false;
+      this.accountService().retrieveAccount();
+    }).catch(() => {
+      this.authenticationError = true;
+    });
   }
 }
 </script>x

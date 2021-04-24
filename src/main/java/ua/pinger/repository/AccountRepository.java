@@ -8,4 +8,6 @@ import ua.pinger.domain.Account;
 public interface AccountRepository extends JpaRepository<Account, Long>
 {
     Account findByEmail(String email);
+
+    Account findByToken(String token);
 }

@@ -49,3 +49,24 @@
     </div>
   </div>
 </template>
+<script lang="ts">
+import Component from "vue-class-component";
+import {Inject} from "vue-property-decorator";
+import AccountService from "../service/AccountService";
+
+@Component
+export default class Home {
+  @Inject('accountService')
+  private accountService: () => AccountService;
+
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      vm.init();
+    });
+  }
+
+  public init(): void {
+    this.accountService().retrieveAccount();
+  }
+}
+</script>

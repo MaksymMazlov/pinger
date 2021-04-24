@@ -10,7 +10,7 @@ export default class AccountService {
     public retrieveAccount(): Promise<boolean> {
         return new Promise(resolve => {
             axios
-                .get('api/account')
+                .get('/api/account')
                 .then(response => {
                     this.store.commit('authenticate');
                     const account = response.data;
@@ -20,7 +20,6 @@ export default class AccountService {
                             this.router.replace(sessionStorage.getItem('requested-url'));
                             sessionStorage.removeItem('requested-url');
                         }
-                        this.router.push('/');
                     } else {
                         this.store.commit('logout');
                         this.router.push('/');
@@ -41,7 +40,8 @@ export default class AccountService {
         }
 
         if (!this.authenticated || !this.userAuthorities) {
-            if (!this.store.getters.account && !this.store.getters.logon) {
+            const token = localStorage.getItem('AuthenticationToken');
+            if (!this.store.getters.account && !this.store.getters.logon && token) {
                 return this.retrieveAccount();
             } else {
                 return new Promise(resolve => {

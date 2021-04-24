@@ -13,6 +13,7 @@ import ua.pinger.service.notifications.MailService;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Service
 public class AccountService
@@ -40,4 +41,16 @@ public class AccountService
         return accountRepository.save(account);
     }
 
+    public Account findByEmail(String email) {
+        return accountRepository.findByEmail(email);
+    }
+
+    public Account findByToken(String token) {
+        return accountRepository.findByToken(token);
+    }
+
+    public void updateToken(Account account, UUID token) {
+        account.setToken(token.toString());
+        accountRepository.save(account);
+    }
 }
