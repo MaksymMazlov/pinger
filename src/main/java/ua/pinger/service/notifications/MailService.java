@@ -24,7 +24,7 @@ public class MailService {
 
     public void sendMail(String recipient, String subject, String text) {
         if (!enabled) {
-            LOG.debug("Email wasn't send to {}, as mailing service is disabled", recipient);
+            LOG.warn("Email wasn't send to {}, as mailing service is disabled", recipient);
             return;
         }
         String meAccountEmail = "mazlovmaxim@gmail.com";
