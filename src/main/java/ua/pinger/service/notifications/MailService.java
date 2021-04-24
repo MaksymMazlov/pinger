@@ -1,5 +1,8 @@
 package ua.pinger.service.notifications;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.mail.Authenticator;
@@ -13,10 +16,17 @@ import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
 @Service
-public class MailService
-{
-    public void sendMail(String recipient, String subject, String text)
-    {
+public class MailService {
+    private static final Logger LOG = LoggerFactory.getLogger(MailService.class);
+
+    @Value("${app.service.mail.enabled:false}")
+    private boolean enabled;
+
+    public void sendMail(String recipient, String subject, String text) {
+        if (!enabled) {
+            LOG.debug("Email wasn't send to {}, as mailing service is disabled", recipient);
+            return;
+        }
         String meAccountEmail = "mazlovmaxim@gmail.com";
         String password = "osdthpilcwotlbnx";
 
