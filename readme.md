@@ -1,3 +1,8 @@
+**Build status**
+
+[![Build Status](https://travis-ci.com/MaksymMazlov/pinger.svg?branch=main)](https://travis-ci.com/MaksymMazlov/pinger)
+
+
 **Description**
 
 This is just a training project. The idea is to write a web-application that can
