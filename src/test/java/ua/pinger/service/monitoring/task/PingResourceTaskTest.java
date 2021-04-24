@@ -1,6 +1,5 @@
 package ua.pinger.service.monitoring.task;
 
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -27,22 +26,11 @@ public class PingResourceTaskTest
     @InjectMocks()
     private PingResourceTask task;
 
-
-    @Test
-    public void testAB()
-    {
-        int a = 2;
-        int b = 3;
-        int c = a + b;
-        Assert.assertEquals(6, c);
-    }
-
     @Test
     public void testWhenPingSuccess()
     {
         Mockito.when(testResource.getId()).thenReturn(123);
         Mockito.when(testResource.getHost()).thenReturn("localhost");
-        Mockito.when(testResource.getInterval()).thenReturn(5);
         task.runImpl();
         Mockito.verify(byDayRepository).save(Mockito.any());
     }
@@ -52,7 +40,6 @@ public class PingResourceTaskTest
     {
         Mockito.when(testResource.getId()).thenReturn(123);
         Mockito.when(testResource.getHost()).thenReturn("192.168.5.5");
-        Mockito.when(testResource.getInterval()).thenReturn(5);
         task.runImpl();
         Mockito.verify(byDayRepository).save(Mockito.any());
     }
