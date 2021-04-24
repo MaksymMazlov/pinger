@@ -9,6 +9,7 @@ import {setupAxiosInterceptors} from './config/axios-config';
 import AccountService from "./service/AccountService";
 import AccountResourceService from "./service/AccountResourceService";
 import MonitoringEventService from "./service/MonitoringEventService";
+import MonitoringByWeekService from "./service/MonitoringByWeekService";
 
 const store = storageConfig.initVueXStore(Vue);
 const accountService = new AccountService(store, router);
@@ -46,7 +47,8 @@ new Vue({
     provide: {
         accountService: () => accountService,
         accountResourceService: () => new AccountResourceService(),
-        monitoringEventService: () => new MonitoringEventService()
+        monitoringEventService: () => new MonitoringEventService(),
+        monitoringByWeekService: () => new MonitoringByWeekService()
     },
     store
 });
