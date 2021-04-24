@@ -4,6 +4,7 @@ install: skip
 os: linux
 dist: trusty
 jdk: oraclejdk8
-
+before_script:
+  - npm install
 script:
   - ./gradlew build --scan -s
