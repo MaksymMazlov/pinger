@@ -2,11 +2,18 @@ package ua.pinger.domain;
 
 import ua.pinger.domain.enumeration.PlanName;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "tarif_plan")
-public class TarifPlan
+public class TariffPlan
 {
     private int id;
     private PlanName name;

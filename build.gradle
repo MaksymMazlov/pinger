@@ -54,5 +54,14 @@ task webpack(type: NpmTask) {
     environment = [APP_VERSION: project.version]
 }
 
+if (project.hasProperty("nodeInstall")) {
+    node {
+        version = "${node_version}"
+        npmVersion = "${npm_version}"
+        yarnVersion = "${yarn_version}"
+        download = true
+    }
+}
+
 compileJava.dependsOn processResources
 processResources.dependsOn webpack

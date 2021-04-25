@@ -1,10 +1,16 @@
 language: java
-install: skip
-
 os: linux
 dist: trusty
 jdk: oraclejdk8
-before_script:
-  - npm install
+node_js:
+  - 12
 script:
-  - ./gradlew build
+  - ./gradlew build -PnodeInstall
+before_cache:
+  - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+    - $HOME/.gradle/nodejs/
+    - node_modules

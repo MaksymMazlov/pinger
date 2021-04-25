@@ -39,7 +39,11 @@ export default class Login {
         localStorage.setItem('AuthenticationToken', bearerToken);
       }
       this.authenticationError = false;
-      this.accountService().retrieveAccount();
+      this.accountService().retrieveAccount().then(r => {
+        if (r) {
+          this.$router.push('/');
+        }
+      });
     }).catch(() => {
       this.authenticationError = true;
     });

@@ -38,26 +38,12 @@
             <td>Статус</td>
             <td>
               <table border="2px" style="border-color: darkgreen" class="text-center">
-                <tr>
-                  <td class="bg-success text-white">
+                <tr v-for="week in weeklyStatus" :key="week.id">
+                  <td v-if="week.isAvailable" class="bg-success text-white">
                     <font-awesome-icon icon="check-circle"/>
                   </td>
-                  <td class="bg-success text-white">
-                    <font-awesome-icon icon="check-circle"/>
-                  </td>
-                  <td class="bg-success text-white">
-                    <font-awesome-icon icon="check-circle"/>
-                  </td>
-                  <td class="bg-success text-white">
-                    <font-awesome-icon icon="check-circle"/>
-                  </td>
-                  <td class="bg-success text-white">
-                    <font-awesome-icon icon="check-circle"/>
-                  </td>
-                  <td class="bg-danger text-white">
-                    <font-awesome-icon icon="times-circle"/>
-                  </td>
-                  <td class="bg-success text-white">
+
+                  <td v-if="!week.isAvailable" class="bg-danger text-white">
                     <font-awesome-icon icon="check-circle"/>
                   </td>
                 </tr>
@@ -92,6 +78,8 @@ import AccountResourceService from '../service/AccountResourceService';
 import {IAccountResource} from "../model/AccountResource";
 import MonitoringEventService from "../service/MonitoringEventService";
 import {IMonitoringEvent} from "../model/MonitoringEvent";
+import {IMonitoringByWeek} from "../model/MonitoringByWeek";
+import MonitoringByWeekService from "../service/MonitoringByWeekService";
 
 @Component
 export default class ResourceDetailsPage extends Vue {
@@ -101,9 +89,13 @@ export default class ResourceDetailsPage extends Vue {
   @Inject('monitoringEventService')
   protected monitoringEventService: () => MonitoringEventService;
 
+  @Inject('monitoringByWeekService')
+  protected monitoringByWeekService: () => MonitoringByWeekService;
+
   private resource: IAccountResource = null;
   private uptime: number = null;
   private events: IMonitoringEvent[] = null;
+  private weeklyStatus: IMonitoringByWeek[] = null;
 
   beforeRouteEnter(to, from, next) {
     next(vm => {
@@ -117,6 +109,7 @@ export default class ResourceDetailsPage extends Vue {
     this.accountResourceService().getResourceById(resourceId).then(r => this.resource = r);
     this.accountResourceService().getResourceUptime(resourceId).then(r => this.uptime = r);
     this.monitoringEventService().getEvents(resourceId).then(r => this.events = r);
+    this.monitoringByWeekService().getWeeklyStatus(resourceId).then(r=>this.weeklyStatus = r);
   }
 }
 </script>
