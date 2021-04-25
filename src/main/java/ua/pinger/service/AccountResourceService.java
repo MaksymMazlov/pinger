@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import ua.pinger.domain.Account;
 import ua.pinger.domain.AccountResource;
+import ua.pinger.domain.enumeration.MonitoringType;
 import ua.pinger.domain.enumeration.ResourceStatus;
 import ua.pinger.dto.RequestChangeStatusDto;
 import ua.pinger.dto.RequestCreateOrUpdateResourceDto;
@@ -59,11 +60,23 @@ public class AccountResourceService
         {
             throw new RestApiException("Tarif plan limit exceeded.");
         }
+
+        String host = resourceDto.getHost().toLowerCase();
+        MonitoringType type = resourceDto.getType();
+        if (type == MonitoringType.URL)
+        {
+            validateUrl(host);
+        }
+        else if (type == MonitoringType.PING)
+        {
+            validateHost(host);
+        }
+
         AccountResource resource = new AccountResource();
         resource.setName(resourceDto.getName());
         resource.setStatus(ResourceStatus.ACTIVE);
-        resource.setHost(resourceDto.getHost());
-        resource.setType(resourceDto.getType());
+        resource.setHost(host);
+        resource.setType(type);
         resource.setInterval(resourceDto.getMonitoringInterval());
         resource.setCreated(Timestamp.valueOf(LocalDateTime.now()));
         resource.setAccountId(account.getId());
@@ -71,6 +84,22 @@ public class AccountResourceService
         resource = resourceRepository.save(resource);
         monitoringService.enqueue(resource);
         return resource;
+    }
+
+    private void validateUrl(String host)
+    {
+        if (!(host.startsWith("http://") || host.startsWith("https://")))
+        {
+            throw new RestApiException("Invalid url name");
+        }
+    }
+
+    private void validateHost(String host)
+    {
+        if (host.startsWith("http://") || host.startsWith("https://"))
+        {
+            throw new RestApiException("Invalid host name");
+        }
     }
 
     public AccountResource update(int accountId, RequestCreateOrUpdateResourceDto resourceDto, int id)
