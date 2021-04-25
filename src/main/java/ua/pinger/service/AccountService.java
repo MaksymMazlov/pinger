@@ -36,7 +36,7 @@ public class AccountService
         account.setTarifPlanId(PlanName.FREE.getId());
 
         LOG.info("IN register - account email: {} successfully registered", account.getEmail());
-        mailService.sendMail(account.getEmail(), "\uD83E\uDD29Pinger - successful registration!", "Thank you for registration. You have free plan.");
+        mailService.sendHtmlMail(account.getEmail(), "\uD83E\uDD29Pinger - successful registration!", "userRegistration.html");
         LOG.info("AccountService: register  - send email: {} successfully registered", account.getEmail());
         return accountRepository.save(account);
     }

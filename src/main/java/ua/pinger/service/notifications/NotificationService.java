@@ -37,13 +37,10 @@ public class NotificationService
         AccountResource resource = event.getAccountResource();
         String subjectUp = "\uD83D\uDE01 Pinger - " + resource.getName() + " : " + event.getReason();
         String subjectDown = "\uD83D\uDE31 Pinger - " + resource.getName() + " : " + event.getReason();
-        String text = "Hello.\n" +
-                "We are informing you: " +
-                resource.getName() + " : " + event.getReason();
 
         String email = resource.getAccount().getEmail();
         EventType type = event.getType();
-        mailService.sendMail(email, (type == EventType.UP ? subjectUp : subjectDown), text);
+        mailService.sendHtmlMail(email, (type == EventType.UP ? subjectUp : subjectDown), "eventStatus.html");
         LOG.info("HttpResourceTask->createEvent: sendMail to {}", email);
     }
 }
