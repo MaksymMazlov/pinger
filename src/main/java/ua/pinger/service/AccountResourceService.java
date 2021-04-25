@@ -49,7 +49,7 @@ public class AccountResourceService
     {
         AccountResource accountResource = resourceRepository.findByAccountIdAndId(accountId, id);
 
-            return accountResourceMapper.toDto(accountResource);
+        return accountResourceMapper.toDto(accountResource);
     }
 
     public AccountResource add(Account account, RequestCreateOrUpdateResourceDto resourceDto)
@@ -116,5 +116,13 @@ public class AccountResourceService
         }
 
         return oldAccountResource;
+    }
+
+    public int getAllPageCount(int accountId)
+    {
+        int pageSize = 10;
+        int allResourceCount = resourceRepository.findByAccountId(accountId).size();
+        int pageCount = allResourceCount / pageSize + (allResourceCount % 10 > 0 ? 1 : 0);
+        return Math.max(pageCount, 1);
     }
 }

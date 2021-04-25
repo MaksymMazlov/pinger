@@ -41,6 +41,11 @@ public class ResourceController {
         Account account = authorizationService.currentAccount();
         return resourceService.getAll(account.getId());
     }
+    @GetMapping("/api/resources/page/count")
+    public int getPageCount() {
+        Account account = authorizationService.currentAccount();
+        return resourceService.getAllPageCount(account.getId());
+    }
 
     @GetMapping("/api/resources/page/{page}")
     public List<AccountResource> getResourcesForPage(@PathVariable int page) {
