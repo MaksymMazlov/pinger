@@ -1,7 +1,9 @@
 package ua.pinger.service.notifications;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +26,8 @@ public class SmsService
     private String apiKey;
     @Value("${app.service.sms.api_url}")
     private String apiUrl;
+    @Autowired
+    private ObjectMapper objectMapper;
 
     public void sendSms(String phone, String textSms)
     {
@@ -42,18 +46,12 @@ public class SmsService
             connection.setRequestProperty("Authorization", apiKey);
             connection.setRequestProperty("Content-Type", "application/json");
             connection.connect();
+
             OutputStream os = connection.getOutputStream();
-            String json = "{\n" +
-                    "   \"recipients\":[\n" +
-                    "      \"" + phone + "\"\n" +
-                    "   ],\n" +
-                    "   \"sms\":{\n" +
-                    "      \"sender\": \"TAXI\",\n" +
-                    "      \"text\": \"" + textSms + "\"\n" +
-                    "   }\n" +
-                    "}";
-            os.write(json.getBytes());
+            SmsRecipient recipient = new SmsRecipient("TAXI", textSms, phone);
+            objectMapper.writeValue(os, recipient);
             os.close();
+
             InputStream io = connection.getInputStream();
             BufferedReader reader = new BufferedReader(new InputStreamReader(io));
             String line = "";
