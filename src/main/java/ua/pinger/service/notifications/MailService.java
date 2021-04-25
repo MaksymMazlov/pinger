@@ -21,15 +21,16 @@ public class MailService {
 
     @Value("${app.service.mail.enabled:false}")
     private boolean enabled;
+    @Value("${app.service.mail.email}")
+    private String email;
+    @Value("${app.service.mail.password}")
+    private String password;
 
     public void sendMail(String recipient, String subject, String text) {
         if (!enabled) {
             LOG.warn("Email wasn't send to {}, as mailing service is disabled", recipient);
             return;
         }
-        String meAccountEmail = "mazlovmaxim@gmail.com";
-        String password = "osdthpilcwotlbnx";
-
         Properties properties = new Properties();
         properties.put("mail.smtp.auth", "true");
         properties.put("mail.smtp.starttls.enable", "true");
@@ -41,14 +42,14 @@ public class MailService {
             @Override
             protected PasswordAuthentication getPasswordAuthentication()
             {
-                return new PasswordAuthentication(meAccountEmail, password);
+                return new PasswordAuthentication(email, password);
             }
         });
 
         try
         {
             Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(meAccountEmail));
+            message.setFrom(new InternetAddress(email));
             message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
             message.setSubject(subject);
             message.setText(text);
