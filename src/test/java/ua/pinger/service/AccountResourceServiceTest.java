@@ -8,11 +8,16 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
+import ua.pinger.domain.Account;
 import ua.pinger.domain.AccountResource;
+import ua.pinger.domain.TariffPlan;
 import ua.pinger.domain.enumeration.MonitoringType;
+import ua.pinger.domain.enumeration.PlanName;
 import ua.pinger.domain.enumeration.ResourceStatus;
 import ua.pinger.dto.RequestChangeStatusDto;
+import ua.pinger.dto.RequestCreateOrUpdateResourceDto;
 import ua.pinger.dto.ResponseAccountResourceDto;
+import ua.pinger.exception.RestApiException;
 import ua.pinger.repository.AccountResourceRepository;
 import ua.pinger.service.mapper.ResponseAccountResourceMapper;
 import ua.pinger.service.monitoring.MonitoringService;
@@ -71,7 +76,7 @@ public class AccountResourceServiceTest
         Mockito.when(resourceRepository.save(oldAccountResource)).thenReturn(oldAccountResource);
         AccountResource accountResource = resourceService.changeStatus(2, changeStatusDto, 2);
         Mockito.verify(monitoringService).cancel(2);
-        Assert.assertEquals(ResourceStatus.ARCHIVED,accountResource.getStatus());
+        Assert.assertEquals(ResourceStatus.ARCHIVED, accountResource.getStatus());
     }
 
     @Test
@@ -87,6 +92,58 @@ public class AccountResourceServiceTest
         Mockito.when(resourceRepository.save(oldAccountResource)).thenReturn(oldAccountResource);
         AccountResource accountResource = resourceService.changeStatus(2, changeStatusDto, 2);
         Mockito.verify(monitoringService).enqueue(oldAccountResource);
-        Assert.assertEquals(ResourceStatus.ACTIVE,accountResource.getStatus());
+        Assert.assertEquals(ResourceStatus.ACTIVE, accountResource.getStatus());
+    }
+
+    @Test(expected = RestApiException.class)
+    public void checkAddReturnRestApiException()
+    {
+        Account account = new Account();
+        TariffPlan plan = new TariffPlan();
+        account.setId(2);
+        plan.setName(PlanName.FREE);
+        plan.setResourceLimit(1);
+        account.setPlan(plan);
+        Mockito.when(resourceRepository.countByAccountId(2)).thenReturn(11);
+          resourceService.add(account, Mockito.mock(RequestCreateOrUpdateResourceDto.class));
+    }
+
+    @Test
+    public void checkAddForNormalParametrs()
+    {
+        Account account = new Account();
+        TariffPlan plan = new TariffPlan();
+        plan.setName(PlanName.FREE);
+        plan.setResourceLimit(1);
+        account.setPlan(plan);
+        account.setId(2);
+
+        RequestCreateOrUpdateResourceDto resourceDto = new RequestCreateOrUpdateResourceDto();
+        resourceDto.setName("turbosms");
+        resourceDto.setType(MonitoringType.PING);
+        resourceDto.setMonitoringInterval(5);
+        resourceDto.setHost("turbosms.co");
+        resourceService.add(account, resourceDto);
+        Mockito.verify(resourceRepository).save(Mockito.any());
+        Mockito.verify(monitoringService).enqueue(Mockito.any());
+    }
+    @Test(expected = RestApiException.class)
+    public void checkAddForBadParametrs()
+    {
+        Account account = new Account();
+        TariffPlan plan = new TariffPlan();
+        plan.setName(PlanName.FREE);
+        plan.setResourceLimit(1);
+        account.setPlan(plan);
+        account.setId(2);
+
+        RequestCreateOrUpdateResourceDto resourceDto = new RequestCreateOrUpdateResourceDto();
+        resourceDto.setName("turbosms");
+        resourceDto.setType(MonitoringType.PING);
+        resourceDto.setMonitoringInterval(5);
+        resourceDto.setHost("http://turbosms.co");
+        resourceService.add(account, resourceDto);
+        Mockito.verify(resourceRepository).save(Mockito.any());
+        Mockito.verify(monitoringService).enqueue(Mockito.any());
     }
 }
