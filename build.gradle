@@ -40,6 +40,14 @@ springBoot {
     mainClassName = "ua.pinger.Main"
 }
 
+
+node {
+    version = '12.16.1'
+    npmVersion = '6.14.5'
+    yarnVersion = '1.22.4'
+    download = true
+}
+
 task webpack(type: NpmTask) {
     inputs.files("package-lock.json")
     inputs.files("build.gradle")
@@ -56,14 +64,6 @@ task webpack(type: NpmTask) {
     environment = [APP_VERSION: project.version]
 }
 
-if (project.hasProperty("nodeInstall")) {
-    node {
-        version = "${node_version}"
-        npmVersion = "${npm_version}"
-        yarnVersion = "${yarn_version}"
-        download = true
-    }
-}
 
 compileJava.dependsOn processResources
 processResources.dependsOn webpack
