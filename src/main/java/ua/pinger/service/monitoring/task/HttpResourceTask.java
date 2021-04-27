@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 import ua.pinger.domain.AccountResource;
 import ua.pinger.domain.MonitoringByDay;
 import ua.pinger.domain.MonitoringEvents;
-import ua.pinger.domain.enumeration.EventType;
 import ua.pinger.repository.MonitoringByDayRepository;
 import ua.pinger.repository.MonitoringEventRepository;
 import ua.pinger.service.monitoring.MonitoringResult;
@@ -19,9 +18,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.sql.Date;
 import java.sql.Time;
-import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Component
@@ -31,6 +28,8 @@ public class HttpResourceTask extends AbstractTask
     private static final Logger LOG = LoggerFactory.getLogger(HttpResourceTask.class);
     private  AccountResource resource;
 
+    @Autowired
+    private EventFactory eventFactory;
     @Autowired
     private MonitoringByDayRepository byDayRepository;
     @Autowired
@@ -68,6 +67,7 @@ public class HttpResourceTask extends AbstractTask
         }
         catch (IOException e)
         {
+            monitoringResult.setReason(e.getMessage());
             LOG.error(e.getMessage(), e);
         }
 
@@ -89,13 +89,7 @@ public class HttpResourceTask extends AbstractTask
         {
             if (monitoringResult.isAvailable() != lastMonitoringByDay.isAvailable())
             {
-                MonitoringEvents event = new MonitoringEvents();
-                event.setType(monitoringResult.isAvailable() ? EventType.UP : EventType.DOWN);
-                event.setReason(monitoringResult.getReason());
-                event.setDateTime(Timestamp.valueOf(LocalDateTime.now()));
-                event.setDuration(event.getDuration() + resource.getInterval());
-                event.setAccountResourceId(resource.getId());
-                event.setAccountResource(resource);
+                MonitoringEvents event = eventFactory.createEvent(resource, monitoringResult);
                 eventRepository.save(event);
                 LOG.info("--------------- EVENT HTTP ADD: {}, DURATION: {}", monitoringResult.isAvailable() ? "UP" : "DOWN", event.getDuration());
 

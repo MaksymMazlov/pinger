@@ -5,6 +5,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 import ua.pinger.domain.AccountResource;
 import ua.pinger.domain.MonitoringByDay;
@@ -15,6 +16,8 @@ import ua.pinger.service.notifications.NotificationService;
 @RunWith(MockitoJUnitRunner.class)
 public class PingResourceTaskTest
 {
+    @Spy
+    private EventFactory eventFactory = new EventFactory();
     @Mock
     private MonitoringByDayRepository byDayRepository;
     @Mock
