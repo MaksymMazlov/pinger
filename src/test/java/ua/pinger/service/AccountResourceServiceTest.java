@@ -21,6 +21,8 @@ import ua.pinger.exception.RestApiException;
 import ua.pinger.repository.AccountResourceRepository;
 import ua.pinger.service.mapper.ResponseAccountResourceMapper;
 import ua.pinger.service.monitoring.MonitoringService;
+import ua.pinger.service.validator.HostValidator;
+import ua.pinger.service.validator.URLValidator;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -36,6 +38,10 @@ public class AccountResourceServiceTest
     private MonitoringService monitoringService;
     @Spy
     private ResponseAccountResourceMapper accountResourceMapper = new ResponseAccountResourceMapper();
+    @Spy
+    private HostValidator hostValidator = new HostValidator();
+    @Spy
+    private URLValidator urlValidator = new URLValidator();
     @InjectMocks
     private AccountResourceService resourceService;
 

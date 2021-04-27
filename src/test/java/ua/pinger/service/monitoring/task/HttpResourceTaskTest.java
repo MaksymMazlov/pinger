@@ -51,7 +51,7 @@ public class HttpResourceTaskTest
         Mockito.when(byDayRepository.findTopByResourceIdOrderByIdDesc(Mockito.anyInt())).thenReturn(oldStatus);
 
         Mockito.when(testResource.getId()).thenReturn(123);
-        Mockito.when(testResource.getHost()).thenReturn("https://httpstat.us/504");
+        Mockito.when(testResource.getHost()).thenReturn("https://httpstat.us/400");
         Mockito.when(testResource.getInterval()).thenReturn(5);
         Mockito.when(testResource.isSmsNotification()).thenReturn(true);
         task.runImpl();

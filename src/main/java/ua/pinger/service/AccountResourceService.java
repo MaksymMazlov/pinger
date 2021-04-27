@@ -16,6 +16,8 @@ import ua.pinger.exception.RestApiException;
 import ua.pinger.repository.AccountResourceRepository;
 import ua.pinger.service.mapper.ResponseAccountResourceMapper;
 import ua.pinger.service.monitoring.MonitoringService;
+import ua.pinger.service.validator.HostValidator;
+import ua.pinger.service.validator.URLValidator;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -32,6 +34,10 @@ public class AccountResourceService
     private MonitoringService monitoringService;
     @Autowired
     private ResponseAccountResourceMapper accountResourceMapper;
+    @Autowired
+    private HostValidator hostValidator;
+    @Autowired
+    private URLValidator urlValidator;
 
     public List<ResponseAccountResourceDto> getAll(int accountId)
     {
@@ -88,7 +94,7 @@ public class AccountResourceService
 
     private void validateUrl(String host)
     {
-        if (!(host.startsWith("http://") || host.startsWith("https://")))
+        if (!urlValidator.isValid(host))
         {
             throw new RestApiException("Invalid url name");
         }
@@ -96,7 +102,7 @@ public class AccountResourceService
 
     private void validateHost(String host)
     {
-        if (host.startsWith("http://") || host.startsWith("https://"))
+        if (!hostValidator.isValid(host))
         {
             throw new RestApiException("Invalid host name");
         }
